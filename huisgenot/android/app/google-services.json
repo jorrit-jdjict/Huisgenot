@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "552707373794",
+    "project_id": "huisgenot-513c0",
+    "storage_bucket": "huisgenot-513c0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:552707373794:android:e07b44d4f1c00bd4c9fcbb",
+        "android_client_info": {
+          "package_name": "com.example.huisgenot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCtuUowoBtjvTP3pmkHBNSEpdjIAHy7zYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

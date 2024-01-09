@@ -3,7 +3,7 @@ import 'view/screens/homeScreen.dart';
 
 /// The Widget that configures your application.
 class HuisGenot extends StatelessWidget {
-  HuisGenot({super.key});
+  const HuisGenot({super.key});
 
   final ColorScheme myColorScheme = const ColorScheme(
     brightness: Brightness.dark,
