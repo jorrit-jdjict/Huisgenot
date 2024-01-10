@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'view/screens/homeScreen.dart';
+import 'view/screens/home_screen.dart';
 
 /// The Widget that configures your application.
 class HuisGenot extends StatelessWidget {
