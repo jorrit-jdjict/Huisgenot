@@ -78,7 +78,7 @@ class FeedScreen extends StatelessWidget {
         children: [
           Container(
             color: Colors.white,
-            padding: const EdgeInsets.all(0),
+            padding: EdgeInsets.only(top: 8),
             child: const Row(
               children: [
                 Spacer(),
@@ -100,10 +100,10 @@ class FeedScreen extends StatelessWidget {
           // Handle the plus button tap
         },
         child: const Icon(Icons.add),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: colorScheme.primary,
+        shape: CircleBorder(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation
-          .endFloat, // Position it at the bottom right corner
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
