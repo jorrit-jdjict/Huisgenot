@@ -14,38 +14,70 @@ class FeedScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: colorScheme.background,
       appBar: AppBar(
+        scrolledUnderElevation: 0.0,
         backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: const Text('Huisgenot'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black,
+                Colors.transparent, // Add your desired color here
+              ],
+              stops: [0, 1], // Adjust the stops as needed
+            ),
+          ),
+        ),
+        title: Text(
+          'Huisgenot',
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ChatOverviewScreen(),
+                ),
+              );
+            },
+            child: Container(
+              margin: const EdgeInsets.all(8.0),
+              width: 48.0, // Set the same size for the icon
+              height: 48.0,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: colorScheme.primary,
+              ),
+              child: Icon(
+                Icons.send,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
         leading: GestureDetector(
           onTap: () {},
           child: Container(
             margin: const EdgeInsets.all(8.0),
-            child: const CircleAvatar(
-              backgroundImage: AssetImage('assets/images/profile_img.png'),
+            width: 48.0, // Set the same size for the image
+            height: 48.0,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage('assets/images/profile_img.png'),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: const Icon(Icons.send),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ChatOverviewScreen(),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
       ),
       body: Column(
         children: [
           Container(
+            color: Colors.white,
             padding: const EdgeInsets.all(0),
             child: const Row(
               children: [
@@ -67,9 +99,8 @@ class FeedScreen extends StatelessWidget {
         onPressed: () {
           // Handle the plus button tap
         },
-        child: const Icon(Icons.add), // Plus icon
-        backgroundColor:
-            Theme.of(context).primaryColor, // Use your primary color
+        child: const Icon(Icons.add),
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation
           .endFloat, // Position it at the bottom right corner
