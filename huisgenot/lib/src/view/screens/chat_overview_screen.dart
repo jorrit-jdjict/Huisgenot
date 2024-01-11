@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:huisgenot/src/view/screens/home_screen.dart';
-// import '../widgets/chat_listitem_widget.dart';
 import 'package:huisgenot/src/view/screens/chat_conversation_screen.dart';
 
 class ChatOverviewScreen extends StatelessWidget {
