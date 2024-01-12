@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:huisgenot/src/controller/chat_controller.dart';
+import 'package:huisgenot/src/controller/message_controller.dart';
 import 'package:huisgenot/src/model/chat_messages.dart';
 
 class ChatConversationScreen extends StatefulWidget {
@@ -19,7 +19,7 @@ class ChatConversationScreen extends StatefulWidget {
 
 class _ChatConversationScreenState extends State<ChatConversationScreen> {
   final TextEditingController _textController = TextEditingController();
-  final ChatController _chatController = ChatController();
+  final MessageController _messageController = MessageController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
           // Chat-inhoud komt hier (vervang dit deel door je werkelijke chat-inhoud)
           Expanded(
             child: StreamBuilder<List<ChatMessages>>(
-              stream: _chatController.getChatMessages('senderUserId-recipientUserId', 20), // Vervang door de daadwerkelijke conversatie-ID
+              stream: _messageController.getChatMessages('senderUserId-recipientUserId', 20), // Vervang door de daadwerkelijke conversatie-ID
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return CircularProgressIndicator(); // Toon een laadindicator tijdens het ophalen van gegevens
@@ -75,13 +75,13 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
                 Expanded(
                   child: TextField(
                     controller: _textController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: 'Type your message...',
                     ),
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.send),
+                  icon: const Icon(Icons.send),
                   onPressed: () {
                     // Roep de methode aan om het bericht te verzenden wanneer de verzendknop wordt ingedrukt
                     _sendMessage();
@@ -113,13 +113,13 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
             children: [
               Text(
                 _formatTimestamp(message.timestamp),
-                style: TextStyle(fontSize: 12.0, color: Colors.white70),
+                style: const TextStyle(fontSize: 12.0, color: Colors.white70),
               ),
             ],
           ),
           Text(
             message.content,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white),
           ),
         ],
       ),
@@ -148,7 +148,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
 
       String conversationId = '$senderUserId-$recipientUserId';
 
-      _chatController.sendChatMessage(chatMessage, conversationId);
+      _messageController.sendChatMessage(chatMessage, conversationId);
 
       _textController.clear();
     }

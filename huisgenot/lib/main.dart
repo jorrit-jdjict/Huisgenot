@@ -13,9 +13,9 @@ void main() async {
   );
 
   // Firebase examples
-  var firebase = FirebaseExample();
-  firebase.createRecord();
-  firebase.readData();
+  //var firebase = FirebaseExample();
+  //firebase.createRecord();
+  //firebase.readData();
 
   runApp(const HuisGenot());
 }

@@ -1,19 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../model/chat_model.dart';
+import '../model/house_model.dart';
 
-class ChatController {
+class HouseController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final collection = "chat";
+  final collection = "house";
 
-  Stream<List<Chat>> getChats() {
+  Stream<List<House>> getHouses() {
     return _firestore
         .collection(collection)
         .snapshots()
         .map((QuerySnapshot querySnapshot) {
       return querySnapshot.docs.map((doc) {
-        return Chat.fromDocument(doc);
+          return House.fromDocument(doc);
       }).toList();
     });
   }
 }
+
+

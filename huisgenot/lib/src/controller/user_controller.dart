@@ -1,19 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:huisgenot/src/model/chat_messages.dart';
 
-import '../model/chat_model.dart';
+import '../model/user_model.dart';
 
-class ChatController {
+class UserController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final collection = "chat";
+  final collection = "user";
 
-  Stream<List<Chat>> getChats() {
+  Stream<List<User>> getUsers() {
     return _firestore
         .collection(collection)
         .snapshots()
         .map((QuerySnapshot querySnapshot) {
       return querySnapshot.docs.map((doc) {
-        return Chat.fromDocument(doc);
+        return User.fromDocument(doc);
       }).toList();
     });
   }
 }
+

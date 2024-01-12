@@ -5,6 +5,9 @@ import 'package:firebase_core/firebase_core.dart';
 class FirebaseExample {
   var databaseURL = 'https://huisgenot-fba16-default-rtdb.europe-west1.firebasedatabase.app/';
   void createRecord() {
+    // Database test
+
+    /*
     DatabaseReference databaseReference = FirebaseDatabase.instanceFor(
         app: Firebase.app(),
         databaseURL: databaseURL
@@ -27,7 +30,7 @@ class FirebaseExample {
     map.forEach((key, value) {
       print(value);
     });
-
+  */
   }
 }
 
