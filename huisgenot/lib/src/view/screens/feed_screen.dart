@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:huisgenot/src/view/screens/create_feed_or_event_screen.dart';
 import '../widgets/card_widget.dart';
 import 'package:huisgenot/src/view/screens/chat_overview_screen.dart';
 
@@ -65,7 +66,13 @@ class FeedScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Handle the plus button tap
+          // Navigate to the CreateFeedScreen when FloatingActionButton is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreateFeedOrEventScreen(),
+            ),
+          );
         },
         child: const Icon(Icons.add), // Plus icon
         backgroundColor:
