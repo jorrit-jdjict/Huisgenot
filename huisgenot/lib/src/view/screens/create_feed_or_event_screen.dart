@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:huisgenot/src/controller/feed_controller.dart';
+import 'package:huisgenot/src/model/feed.dart';
+import 'package:huisgenot/src/model/feed_model.dart';
+import 'package:huisgenot/src/model/house_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateFeedOrEventScreen extends StatefulWidget {
@@ -13,6 +17,9 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   String selectedOption = 'Feed'; // Default selected option
   late String imagePath; // To store the selected image path
   DateTime? selectedDate; // To store the selected date
+  FeedController feedController =  FeedController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   // Function to handle image picking
   Future<void> _pickImage() async {
@@ -43,7 +50,25 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   }
 
   void _handleUpload() {
-    // Implement the logic for handling the upload action
+    // Get data from UI
+    // Get data from UI
+    String title = titleController.text;
+    String description = descriptionController.text;
+    // Add any other necessary fields
+    // Add any other necessary fields
+
+    FeedItem newFeed = FeedItem(
+      id: '1', //TODO check how to deal with ID
+      imageUrl: 'https://example.com/image.jpg',
+      postTitle: title,
+      postDate: DateTime.now(),
+      postAuthor: House(id: '1', name: 'Logged in user', address: 'test', description: 'bruuh'), //TODO: change this to the logged in user house id
+    );
+
+    // Upload feed only if the selected option is 'Feed'
+    if (selectedOption == 'Feed') {
+      feedController.uploadFeed(newFeed);
+    }
   }
 
   @override
@@ -121,6 +146,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
               style: Theme.of(context).textTheme.subtitle1,
             ),
             TextField(
+              controller: titleController,
               decoration: InputDecoration(
                 hintText: 'Enter title...',
               ),
@@ -132,6 +158,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             ),
             Expanded(
               child: TextField(
+                controller: descriptionController,
                 maxLines: null,
                 decoration: InputDecoration(
                   hintText: 'Enter description...',
