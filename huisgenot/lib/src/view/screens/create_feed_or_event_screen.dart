@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:huisgenot/src/controller/event_controller.dart';
 import 'package:huisgenot/src/controller/feed_controller.dart';
@@ -6,6 +8,7 @@ import 'package:huisgenot/src/model/feed_model.dart';
 import 'package:huisgenot/src/model/house_model.dart';
 import 'package:huisgenot/src/view/screens/feed_screen.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';  // for File
 
 class CreateFeedOrEventScreen extends StatefulWidget {
   const CreateFeedOrEventScreen({Key? key}) : super(key: key);
@@ -17,21 +20,41 @@ class CreateFeedOrEventScreen extends StatefulWidget {
 
 class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   String selectedOption = 'Feed'; // Default selected option
-  late String imagePath; // To store the selected image path
+  late String imageUrl; // To store the selected image path
   DateTime selectedDate = DateTime.now(); // To store the selected date
   FeedController feedController = FeedController();
   EventController eventController = EventController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+  final picker = ImagePicker();
 
   // Function to handle image picking
-  Future<void> _pickImage() async {
-    final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+  Future<void> _uploadImage() async {
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      // Upload the image to Firebase Storage
+      String imagePath = pickedFile.path;
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      String storagePath = 'images/$fileName.jpg';
+
+      // Upload image
+      // Replace 'your-firebase-bucket' with your Firebase Storage bucket name
+      Reference storageReference = FirebaseStorage.instance.ref().child(storagePath);
+      UploadTask uploadTask = storageReference.putFile(File(imagePath));
+
+      // Get the download URL
+      String downloadUrl = await (await uploadTask).ref.getDownloadURL();
+
       setState(() {
-        imagePath = pickedFile.path;
+        imageUrl = downloadUrl;
+      });
+
+      // Store image reference in Firestore
+      // You can replace 'images' with your desired collection name
+      await FirebaseFirestore.instance.collection('images').add({
+        'imageUrl': downloadUrl,
+        'createdAt': FieldValue.serverTimestamp(),
       });
     }
   }
@@ -207,7 +230,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: _pickImage,
+                  onTap: _uploadImage,
                   borderRadius: BorderRadius.circular(20.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
