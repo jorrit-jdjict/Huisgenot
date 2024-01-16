@@ -21,7 +21,7 @@ class CardWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Title Text',
+                  'Huize Gouden Tegel Mixx',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 18,
@@ -29,12 +29,12 @@ class CardWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Description Text',
+                  'Gezellige mix met de buuren',
                   style: TextStyle(fontSize: 16),
                 ),
                 SizedBox(height: 8),
                 Text(
-                  'Time or Location Text',
+                  '10-01-2024, Groningen',
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
               ],
