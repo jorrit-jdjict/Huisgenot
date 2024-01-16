@@ -2,48 +2,48 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
   final String id;
-  final String firstName;
-  final String lastName;
+  final String first_name;
+  final String last_name;
   final String bio;
-  final String houseId;
+  final String house_id;
 
   User(
       {required this.id,
-      required this.firstName,
-      required this.lastName,
+      required this.first_name,
+      required this.last_name,
       required this.bio,
-      required this.houseId});
+      required this.house_id});
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
         id: map['id'],
-        firstName: map['firstName'],
-        lastName: map['lastName'],
+        first_name: map['first_name'],
+        last_name: map['last_name'],
         bio: map['bio'],
-        houseId: map['houseId']);
+        house_id: map['house_id']);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'firstName': firstName,
-      'lastName': lastName,
+      'first_name': first_name,
+      'last_name': last_name,
       'bio': bio,
-      'houseId': houseId
+      'house_id': house_id
     };
   }
 
   factory User.fromDocument(DocumentSnapshot documentSnapshot) {
     String id = documentSnapshot.id;
-    String firstName = documentSnapshot.get('first_name');
-    String lastName = documentSnapshot.get('last_name');
+    String first_name = documentSnapshot.get('first_name');
+    String last_name = documentSnapshot.get('last_name');
     String bio = documentSnapshot.get('bio');
-    String houseId = documentSnapshot.get('house_id');
+    String house_id = documentSnapshot.get('house_id');
 
     return User(
         id: id,
-        firstName: firstName,
-        lastName: lastName,
+        first_name: first_name,
+        last_name: last_name,
         bio: bio,
-        houseId: houseId);
+        house_id: house_id);
   }
 }

@@ -76,7 +76,7 @@ class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
                   String userHouseId = "";
                   for (var user in snapshot1.data!) {
                     if (user.id == "7sZXYmgI4KM5UoItkr1l") { // TODO: Replace user ID with global variable or something
-                      userHouseId = user.houseId;
+                      userHouseId = user.house_id;
                       break;
                     }
                   }

@@ -49,7 +49,7 @@ class HouseScreen extends StatelessWidget {
           if (userSnapshot.connectionState == ConnectionState.done) {
             if (userSnapshot.hasData) {
               User user = userSnapshot.data!;
-              final String houseId = user.houseId;
+              final String houseId = user.house_id;
 
               return Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -164,7 +164,7 @@ class HouseScreen extends StatelessWidget {
       children: [
         for (User housemate in housemates)
           _buildHousemate(
-              '${housemate.firstName} ${housemate.lastName}', housemate.bio),
+              '${housemate.first_name} ${housemate.last_name}', housemate.bio),
       ],
     );
   }

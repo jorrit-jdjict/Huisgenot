@@ -14,7 +14,7 @@ class HuisGenot extends StatelessWidget {
     surface: Color(0xFF426421),
     onSurface: Color.fromARGB(255, 52, 78, 26),
     onError: Color(0xFFF32424),
-    primary: Color(0xFFA1C47E), // Define your primary color
+    primary: Color.fromARGB(255, 161, 196, 126), // Define your primary color
     secondary: Color.fromARGB(255, 46, 72, 20), // Define your secondary color
     onPrimary: Color(0xFFF7F7F7),
     onSecondary: Color(0xFF0D1702),
@@ -25,7 +25,8 @@ class HuisGenot extends StatelessWidget {
     return MaterialApp(
       title: 'Huisgenot',
       theme: ThemeData(colorScheme: myColorScheme),
-      home: FeedScreen(),
+      // home: FeedScreen(),
+      home: LoginScreen(),
     );
   }
 }

@@ -12,7 +12,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Text('Login', style: TextStyle(color: Colors.white)),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -27,6 +27,7 @@ class LoginScreen extends StatelessWidget {
               child: TextField(
                 controller: _firstNameController,
                 decoration: InputDecoration(
+
                   labelText: 'Voornaam',
                   contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
                 ),
@@ -49,16 +50,16 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () async {
-                String firstName = _firstNameController.text;
-                String lastName = _lastNameController.text;
+                String first_name = _firstNameController.text;
+                String last_name = _lastNameController.text;
 
-                if (firstName.isNotEmpty && lastName.isNotEmpty) {
+                if (first_name.isNotEmpty && last_name.isNotEmpty) {
                   User user = User(
                     id: '',
-                    firstName: firstName,
-                    lastName: lastName,
+                    first_name: first_name,
+                    last_name: last_name,
                     bio: '',
-                    houseId: '',
+                    house_id: '',
                   );
 
                   await _userController.addUserToFirebase(user);
@@ -71,14 +72,20 @@ class LoginScreen extends StatelessWidget {
                   // Toon een foutmelding dat de velden niet leeg mogen zijn
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content:
-                          const Text('Voer zowel voornaam als achternaam in.'),
+                      content: const Text(
+                          'Voer zowel voornaam als achternaam in.',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white)),
                       duration: const Duration(seconds: 5),
                     ),
                   );
                 }
               },
-              child: const Text('Inloggen'),
+              child: const Text('Profiel aanmaken',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white)),
             ),
           ],
         ),
