@@ -4,17 +4,16 @@ import 'package:huisgenot/src/model/chat_messages.dart';
 class MessageController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<void> sendChatMessage(ChatMessages chatMessage, String groupChatId) async {
-    // Convert the ChatMessages object to JSON
+  Future<void> sendChatMessage(ChatMessages chatMessage) async {
     Map<String, dynamic> messageData = chatMessage.toJson();
 
-    // Add the message to the Firestore collection
-    await _firestore.collection(groupChatId).add(messageData);
+    await _firestore.collection("messages").add(messageData);
   }
 
-  Stream<List<ChatMessages>> getChatMessages(String groupChatId, int limit) {
+  Stream<List<ChatMessages>> getChatMessages(String chatId, int limit) {
     return _firestore
-        .collection(groupChatId)
+        .collection('messages')
+        .where('chat_id', isEqualTo: chatId)
         .orderBy('timestamp', descending: true)
         .limit(limit)
         .snapshots()
@@ -24,6 +23,7 @@ class MessageController {
       }).toList();
     });
   }
+
 }
 
 
