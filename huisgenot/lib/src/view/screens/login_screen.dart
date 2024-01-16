@@ -8,6 +8,8 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController _lastNameController = TextEditingController();
   final UserController _userController = UserController();
 
+  LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +28,9 @@ class LoginScreen extends StatelessWidget {
               ),
               child: TextField(
                 controller: _firstNameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Voornaam',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                 ),
               ),
             ),
@@ -40,9 +42,9 @@ class LoginScreen extends StatelessWidget {
               ),
               child: TextField(
                 controller: _lastNameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Achternaam',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                 ),
               ),
             ),
@@ -70,10 +72,10 @@ class LoginScreen extends StatelessWidget {
                 } else {
                   // Toon een foutmelding dat de velden niet leeg mogen zijn
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content:
-                          const Text('Voer zowel voornaam als achternaam in.'),
-                      duration: const Duration(seconds: 5),
+                          Text('Voer zowel voornaam als achternaam in.'),
+                      duration: Duration(seconds: 5),
                     ),
                   );
                 }

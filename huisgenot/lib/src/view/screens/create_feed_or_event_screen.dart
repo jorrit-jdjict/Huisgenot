@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:huisgenot/src/controller/event_controller.dart';
 import 'package:huisgenot/src/controller/feed_controller.dart';
-import 'package:huisgenot/src/model/event_model.dart';
 import 'package:huisgenot/src/model/feed_model.dart';
+import 'package:huisgenot/src/model/event_model.dart';
 import 'package:huisgenot/src/model/house_model.dart';
-import 'package:huisgenot/src/view/screens/feed_screen.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:huisgenot/src/view/screens/feed_screen.dart';
 
 class CreateFeedOrEventScreen extends StatefulWidget {
   const CreateFeedOrEventScreen({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   // Function to handle image picking
   Future<void> _pickImage() async {
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -42,9 +42,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime
-          .now()
-          .year + 1),
+      lastDate: DateTime(DateTime.now().year + 1),
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
@@ -55,7 +53,6 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   }
 
   void _handleUpload() {
-
     // Get data from UI
     // Get data from UI
     String title = titleController.text;
@@ -76,10 +73,10 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
               'bruuh', lat:0, lng:0), //TODO: change this to the logged in user house id
     );
 
-    // Upload feed only if the selected option is 'Feed'
+      // Upload feed only if the selected option is 'Feed'
 
       feedController.uploadFeed(newFeed);
-    }else if(selectedOption == "Event"){
+    } else if (selectedOption == "Event") {
       EventItem newEvent = EventItem(
         id: '1', //TODO check how to deal with ID
         imageUrl: 'https://example.com/image.jpg',
@@ -121,7 +118,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
           children: [
             Text(
               'Wat wil je posten?:',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             Row(
               children: [
@@ -154,7 +151,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                 children: [
                   Text(
                     'Datum:',
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   GestureDetector(
                     onTap: _selectDate,
@@ -179,24 +176,24 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             const SizedBox(height: 24.0),
             Text(
               'Titel:',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             TextField(
               controller: titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Titel...',
               ),
             ),
             const SizedBox(height: 24.0),
             Text(
               'Omschrijving:',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             Expanded(
               child: TextField(
                 controller: descriptionController,
                 maxLines: null,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Omschrijving...',
                 ),
               ),
@@ -213,13 +210,13 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                 child: InkWell(
                   onTap: _pickImage,
                   borderRadius: BorderRadius.circular(20.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.file_upload, color: Colors.white),
-                        const SizedBox(width: 8.0),
+                        SizedBox(width: 8.0),
                         Text('Afbeelding uploaden',
                             style: TextStyle(color: Colors.white)),
                       ],
@@ -229,7 +226,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
               ),
             ),
             const SizedBox(height: 24.0),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: TextButton(
                 onPressed: _handleUpload,
@@ -239,8 +236,8 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     'Posten',
                     style: TextStyle(color: Colors.white),

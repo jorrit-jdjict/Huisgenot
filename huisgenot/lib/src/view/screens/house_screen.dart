@@ -8,9 +8,11 @@ class HouseScreen extends StatelessWidget {
   final UserController _userController = UserController();
   final HouseController _houseController = HouseController();
 
+  HouseScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final String userId = '7sZXYmgI4KM5UoItkr1l';
+    const String userId = '7sZXYmgI4KM5UoItkr1l';
 
     return Scaffold(
       appBar: AppBar(
@@ -55,7 +57,7 @@ class HouseScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 60,
                       backgroundImage: AssetImage(
                         'assets/images/profile_img.png',
@@ -79,7 +81,7 @@ class HouseScreen extends StatelessWidget {
                           }
                         }
 
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       },
@@ -110,7 +112,7 @@ class HouseScreen extends StatelessWidget {
                           }
                         }
 
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       },
@@ -124,7 +126,7 @@ class HouseScreen extends StatelessWidget {
               );
             }
           }
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         },
@@ -138,7 +140,7 @@ class HouseScreen extends StatelessWidget {
       children: [
         Text(
           house.name,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
             color: Colors.white,
@@ -146,7 +148,7 @@ class HouseScreen extends StatelessWidget {
         ),
         Text(
           house.address,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             color: Color.fromARGB(255, 161, 196, 126),
           ),
@@ -174,7 +176,7 @@ class HouseScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 25,
             backgroundColor: Color.fromARGB(255, 161, 196, 126),
           ),
