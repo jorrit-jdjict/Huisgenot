@@ -1,9 +1,9 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
 class FirebaseExample {
-  var databaseURL = 'https://huisgenot-fba16-default-rtdb.europe-west1.firebasedatabase.app/';
+  var databaseURL =
+      'https://huisgenot-fba16-default-rtdb.europe-west1.firebasedatabase.app/';
   void createRecord() {
     // Database test
 
@@ -33,5 +33,3 @@ class FirebaseExample {
   */
   }
 }
-
-

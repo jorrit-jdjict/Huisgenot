@@ -12,10 +12,24 @@ class HouseController {
         .snapshots()
         .map((QuerySnapshot querySnapshot) {
       return querySnapshot.docs.map((doc) {
-          return House.fromDocument(doc);
+        return House.fromDocument(doc);
       }).toList();
     });
   }
+
+  Future<House?> getHouseById(String houseId) async {
+    try {
+      var snapshot = await _firestore.collection(collection).doc(houseId).get();
+
+      if (snapshot.exists) {
+        return House.fromDocument(snapshot);
+      } else {
+        print('Huis met ID $houseId niet gevonden.');
+        return null;
+      }
+    } catch (e) {
+      print('Fout bij ophalen van huis uit Firebase: $e');
+      return null;
+    }
+  }
 }
-
-
