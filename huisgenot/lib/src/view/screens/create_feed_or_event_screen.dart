@@ -63,6 +63,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
         id: '1',
         //TODO check how to deal with ID
         imageUrl: 'https://example.com/image.jpg',
+<<<<<<< Updated upstream
         postTitle: title,
         postDate: DateTime.now(),
         postAuthor: House(
@@ -71,6 +72,12 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             address: 'test',
             description:
             'bruuh'), //TODO: change this to the logged in user house id
+=======
+        eventTitle: title,
+        eventDescription: description,
+        postDate: selectedDate,
+        houseId: "1"//TODO: change this to the logged in user house id
+>>>>>>> Stashed changes
       );
 
       feedController.uploadFeed(newFeed);
