@@ -137,6 +137,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 if (first_name.isNotEmpty &&
                     last_name.isNotEmpty &&
+                    bio.isNotEmpty &&
                     _selectedHouse != null) {
                   User user = User(
                     id: '',
@@ -158,7 +159,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text(
-                        'Voer zowel voornaam, achternaam, en selecteer een huis in.',
+                        'Alle velden zijn verplicht',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -166,6 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       duration: const Duration(seconds: 5),
+                      backgroundColor: Colors.red,
                     ),
                   );
                 }
