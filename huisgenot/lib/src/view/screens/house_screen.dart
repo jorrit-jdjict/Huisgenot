@@ -175,12 +175,12 @@ class HouseScreen extends StatelessWidget {
     return Column(
       children: [
         for (User housemate in housemates)
-          _buildHousemate('${housemate.firstName} ${housemate.lastName}'),
+          _buildHousemate('${housemate.firstName} ${housemate.lastName}', housemate.bio),
       ],
     );
   }
 
-  Widget _buildHousemate(String name) {
+  Widget _buildHousemate(String name, String bio) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -200,7 +200,7 @@ class HouseScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text('BIO'),
+              Text(bio),
             ],
           ),
         ],
