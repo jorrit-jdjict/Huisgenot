@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:huisgenot/src/controller/event_controller.dart';
 import 'package:huisgenot/src/controller/feed_controller.dart';
 import 'package:huisgenot/src/model/feed_model.dart';
+import 'package:huisgenot/src/model/event_model.dart';
 import 'package:huisgenot/src/model/house_model.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:huisgenot/src/view/screens/feed_screen.dart';
 
 class CreateFeedOrEventScreen extends StatefulWidget {
   const CreateFeedOrEventScreen({Key? key}) : super(key: key);
@@ -25,7 +27,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   // Function to handle image picking
   Future<void> _pickImage() async {
     final pickedFile =
-    await ImagePicker().pickImage(source: ImageSource.gallery);
+        await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
@@ -40,9 +42,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime
-          .now()
-          .year + 1),
+      lastDate: DateTime(DateTime.now().year + 1),
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
@@ -53,7 +53,6 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   }
 
   void _handleUpload() {
-
     // Get data from UI
     // Get data from UI
     String title = titleController.text;
@@ -61,23 +60,23 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     // Add any other necessary fields
     // Add any other necessary fields
     if (selectedOption == 'Feed') {
-    FeedItem newFeed = FeedItem(
-      id: '1', //TODO check how to deal with ID
-      imageUrl: 'https://example.com/image.jpg',
-      postTitle: title,
-      postDate: DateTime.now(),
-      postAuthor: House(
-          id: '1',
-          name: 'Logged in user',
-          address: 'test',
-          description:
-              'bruuh'), //TODO: change this to the logged in user house id
-    );
+      FeedItem newFeed = FeedItem(
+        id: '1', //TODO check how to deal with ID
+        imageUrl: 'https://example.com/image.jpg',
+        postTitle: title,
+        postDate: DateTime.now(),
+        postAuthor: House(
+            id: '1',
+            name: 'Logged in user',
+            address: 'test',
+            description:
+                'bruuh'), //TODO: change this to the logged in user house id
+      );
 
-    // Upload feed only if the selected option is 'Feed'
+      // Upload feed only if the selected option is 'Feed'
 
       feedController.uploadFeed(newFeed);
-    }else if(selectedOption == "Event"){
+    } else if (selectedOption == "Event") {
       EventItem newEvent = EventItem(
         id: '1', //TODO check how to deal with ID
         imageUrl: 'https://example.com/image.jpg',
@@ -89,7 +88,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             name: 'Logged in user',
             address: 'test',
             description:
-            'bruuh'), //TODO: change this to the logged in user house id
+                'bruuh'), //TODO: change this to the logged in user house id
       );
 
       // Upload feed only if the selected option is 'Feed'
