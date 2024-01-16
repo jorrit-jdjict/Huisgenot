@@ -4,6 +4,7 @@ import 'package:huisgenot/src/controller/feed_controller.dart';
 import 'package:huisgenot/src/model/event_model.dart';
 import 'package:huisgenot/src/model/feed_model.dart';
 import 'package:huisgenot/src/model/house_model.dart';
+import 'package:huisgenot/src/view/screens/feed_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateFeedOrEventScreen extends StatefulWidget {
@@ -83,6 +84,12 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
       );
       eventController.uploadFeed(newEvent);
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const FeedScreen(),
+      ),
+    );
   }
 
   @override
