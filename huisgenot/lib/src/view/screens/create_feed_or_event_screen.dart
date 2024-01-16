@@ -18,7 +18,7 @@ class CreateFeedOrEventScreen extends StatefulWidget {
 class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   String selectedOption = 'Feed'; // Default selected option
   late String imagePath; // To store the selected image path
-  DateTime? selectedDate; // To store the selected date
+  DateTime selectedDate = DateTime.now(); // To store the selected date
   FeedController feedController = FeedController();
   EventController eventController = EventController();
   TextEditingController titleController = TextEditingController();
@@ -62,7 +62,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     String description = descriptionController.text;
     // Add any other necessary fields
     // Add any other necessary fields
-
+    if (selectedOption == 'Feed') {
     FeedItem newFeed = FeedItem(
       id: '1', //TODO check how to deal with ID
       imageUrl: 'https://example.com/image.jpg',
@@ -77,14 +77,39 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     );
 
     // Upload feed only if the selected option is 'Feed'
-    if (selectedOption == 'Feed') {
+
       feedController.uploadFeed(newFeed);
+    }else if(selectedOption == "Event"){
+      EventItem newEvent = EventItem(
+        id: '1', //TODO check how to deal with ID
+        imageUrl: 'https://example.com/image.jpg',
+        eventTitle: title,
+        eventDescription: description,
+        postDate: selectedDate,
+        postAuthor: House(
+            id: '1',
+            name: 'Logged in user',
+            address: 'test',
+            description:
+            'bruuh'), //TODO: change this to the logged in user house id
+      );
+
+      // Upload feed only if the selected option is 'Feed'
+
+      eventController.uploadFeed(newEvent);
     }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FeedScreen(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Bericht posten'),
         // Add any additional styling you want for the app bar
