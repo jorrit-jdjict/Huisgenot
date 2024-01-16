@@ -49,7 +49,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
               stream: _messageController.getChatMessages('senderUserId-recipientUserId', 20), // Vervang door de daadwerkelijke conversatie-ID
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Toon een laadindicator tijdens het ophalen van gegevens
+                  return const CircularProgressIndicator(); // Toon een laadindicator tijdens het ophalen van gegevens
                 } else if (snapshot.hasError) {
                   return Text('Fout: ${snapshot.error}');
                 } else {

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:huisgenot/src/controller/event_controller.dart';
 import 'package:huisgenot/src/controller/feed_controller.dart';
-import 'package:huisgenot/src/model/event_model.dart';
 import 'package:huisgenot/src/model/feed_model.dart';
 import 'package:huisgenot/src/model/house_model.dart';
-import 'package:huisgenot/src/view/screens/feed_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreateFeedOrEventScreen extends StatefulWidget {
@@ -121,7 +119,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
           children: [
             Text(
               'Wat wil je posten?:',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             Row(
               children: [
@@ -154,7 +152,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                 children: [
                   Text(
                     'Datum:',
-                    style: Theme.of(context).textTheme.subtitle1,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   GestureDetector(
                     onTap: _selectDate,
@@ -179,24 +177,24 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             const SizedBox(height: 24.0),
             Text(
               'Titel:',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             TextField(
               controller: titleController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 hintText: 'Titel...',
               ),
             ),
             const SizedBox(height: 24.0),
             Text(
               'Omschrijving:',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             Expanded(
               child: TextField(
                 controller: descriptionController,
                 maxLines: null,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Omschrijving...',
                 ),
               ),
@@ -213,13 +211,13 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                 child: InkWell(
                   onTap: _pickImage,
                   borderRadius: BorderRadius.circular(20.0),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                  child: const Padding(
+                    padding: EdgeInsets.all(16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(Icons.file_upload, color: Colors.white),
-                        const SizedBox(width: 8.0),
+                        SizedBox(width: 8.0),
                         Text('Afbeelding uploaden',
                             style: TextStyle(color: Colors.white)),
                       ],
@@ -229,7 +227,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
               ),
             ),
             const SizedBox(height: 24.0),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: TextButton(
                 onPressed: _handleUpload,
@@ -239,8 +237,8 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                     borderRadius: BorderRadius.circular(20.0),
                   ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
+                child: const Padding(
+                  padding: EdgeInsets.all(16.0),
                   child: Text(
                     'Posten',
                     style: TextStyle(color: Colors.white),
