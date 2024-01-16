@@ -88,6 +88,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Create Feed or Event'),
         // Add any additional styling you want for the app bar
