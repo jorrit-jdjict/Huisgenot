@@ -1,39 +1,47 @@
-import 'package:huisgenot/src/model/person_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class House {
-  final String houseName;
-  final String houseAddress;
-  final int peopleCount;
-  final String biography;
-  final List<Person> occupants;
+  final String id;
+  final String name;
+  final String address;
+  final String description;
 
   House({
-    required this.houseName,
-    required this.houseAddress,
-    required this.peopleCount,
-    required this.biography,
-    required this.occupants,
+    required this.id,
+    required this.name,
+    required this.address,
+    required this.description,
   });
 
   factory House.fromMap(Map<String, dynamic> map) {
     return House(
-      houseName: map['houseName'],
-      houseAddress: map['houseAddress'],
-      peopleCount: map['peopleCount'],
-      biography: map['biography'],
-      occupants: (map['occupants'] as List<dynamic>)
-          .map((person) => Person.fromMap(person))
-          .toList(),
+        id: map['id'],
+        name: map['name'],
+        address: map['address'],
+        description: map['description']
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'houseName': houseName,
-      'houseAddress': houseAddress,
-      'peopleCount': peopleCount,
-      'biography': biography,
-      'occupants': occupants.map((person) => person.toMap()).toList(),
+      'id': id,
+      'name': name,
+      'address': address,
+      'description': description,
     };
+  }
+
+  factory House.fromDocument(DocumentSnapshot documentSnapshot) {
+    String id = documentSnapshot.id;
+    String name = documentSnapshot.get('name');
+    String address = documentSnapshot.get('address');
+    String description = documentSnapshot.get('description');
+
+    return House(
+        id: id,
+        name: name,
+        address: address,
+        description: description
+    );
   }
 }

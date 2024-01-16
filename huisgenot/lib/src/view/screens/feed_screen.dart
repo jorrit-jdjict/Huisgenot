@@ -63,7 +63,15 @@ class FeedScreen extends StatelessWidget {
           ),
         ],
         leading: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            // Navigate to the CreateFeedScreen when FloatingActionButton is pressed
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HouseScreen(),
+              ),
+            );
+          },
           child: Container(
             margin: const EdgeInsets.all(8.0),
             width: 48.0, // Set the same size for the image
@@ -113,7 +121,13 @@ class FeedScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Handle the plus button tap
+          // Navigate to the CreateFeedScreen when FloatingActionButton is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const CreateFeedOrEventScreen(),
+            ),
+          );
         },
         child: const Icon(Icons.add),
         backgroundColor: colorScheme.primary,

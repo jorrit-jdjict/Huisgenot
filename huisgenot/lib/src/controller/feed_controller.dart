@@ -6,6 +6,7 @@ class FeedController {
       FirebaseFirestore.instance.collection('feeds');
   final collection = "feed";
 
+
   Future<void> uploadFeed(FeedItem feed) async {
     try {
       await feedsCollection.add(feed.toMap());
@@ -25,3 +26,4 @@ class FeedController {
     });
   }
 }
+
