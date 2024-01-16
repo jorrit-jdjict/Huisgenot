@@ -7,6 +7,7 @@ class EventController {
 
   // Function to upload an event to Firestore
   Future<void> uploadEvent(EventItem eventItem) async {
+    print(eventItem);
     try {
       await eventsCollection.add(eventItem.toJson());
     } catch (e) {
@@ -25,5 +26,24 @@ class EventController {
         ).toList();
       },
     );
+  }
+  Future<String> getLastEventId() async {
+    try {
+      QuerySnapshot querySnapshot = await eventsCollection
+          .orderBy('eventId', descending: true)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        // Return the ID of the last created event
+        int eventId = int.parse(querySnapshot.docs.first.get("eventId")) + 1;
+        return eventId.toString();
+      } else {
+        return "1"; // No events found
+      }
+    } catch (e) {
+      print('Error getting last event ID: $e');
+      return "-1";
+    }
   }
 }

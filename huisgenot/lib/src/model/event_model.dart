@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:huisgenot/src/model/house_model.dart';
 
 class EventItem {
-  final String id;
+  final String eventId;
   final String imageUrl;
   final String eventTitle;
   final String eventDescription;
@@ -12,7 +12,7 @@ class EventItem {
   final String houseId;
 
   EventItem({
-    required this.id,
+    required this.eventId,
     required this.imageUrl,
     required this.eventTitle,
     required this.eventDescription,
@@ -22,7 +22,7 @@ class EventItem {
 
   factory EventItem.fromMap(Map<String, dynamic> map) {
     return EventItem(
-      id: map['id'],
+      eventId: map['eventId'],
       imageUrl: map['imageUrl'],
       eventTitle: map['eventTitle'],
       eventDescription: map['eventDescription'],
@@ -33,6 +33,7 @@ class EventItem {
 
   Map<String, dynamic> toJson() {
     return {
+      'eventId': eventId,
       'imageUrl': imageUrl,
       'eventTitle': eventTitle,
       'eventDescription': eventDescription,
@@ -43,7 +44,7 @@ class EventItem {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'eventId': eventId,
       'imageUrl': imageUrl,
       'eventTitle': eventTitle,
       'eventDescription': eventDescription,
@@ -52,7 +53,7 @@ class EventItem {
     };
   }
   factory EventItem.fromDocument(DocumentSnapshot documentSnapshot) {
-    String id = documentSnapshot.id;
+    String eventId = documentSnapshot.get('eventId');
     String imageUrl = documentSnapshot.get('imageUrl');
     String eventTitle = documentSnapshot.get('eventTitle');
     String eventDescription = documentSnapshot.get('eventDescription');
@@ -60,7 +61,7 @@ class EventItem {
     String houseId = documentSnapshot.get('houseId');
 
     return EventItem(
-        id: id,
+        eventId: eventId,
         imageUrl: imageUrl,
         eventTitle: eventTitle,
         eventDescription: eventDescription,

@@ -54,7 +54,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     }
   }
 
-  void _handleUpload() {
+  Future<void> _handleUpload() async {
 
     // Get data from UI
     // Get data from UI
@@ -80,8 +80,9 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
 
       feedController.uploadFeed(newFeed);
     }else if(selectedOption == "Event"){
+      String lastId = await eventController.getLastEventId();
       EventItem newEvent = EventItem(
-        id: '1', //TODO check how to deal with ID
+        eventId: lastId, //TODO check how to deal with ID
         imageUrl: 'https://example.com/image.jpg',
         eventTitle: title,
         eventDescription: description,
