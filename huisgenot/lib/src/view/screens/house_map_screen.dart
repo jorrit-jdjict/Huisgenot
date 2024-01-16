@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../controller/house_controller.dart';
+import '../../controller/user_controller.dart';
 import '../../model/house_model.dart';
+import '../../model/user_model.dart';
+import '../widgets/profile_widget.dart';
 
 
 class HouseMapScreen extends StatefulWidget {
@@ -18,6 +21,8 @@ class _HouseMapScreenState extends State<HouseMapScreen> {
   late GoogleMapController mapController;
   final HouseController _houseController = HouseController();
 
+  final UserController _userController = UserController();
+  late BitmapDescriptor houseIcon;
   final LatLng _center = const LatLng(53.23, 6.570570);
 
   void _onMapCreated(GoogleMapController controller) {
@@ -30,6 +35,7 @@ class _HouseMapScreenState extends State<HouseMapScreen> {
           (house) => Marker(
         markerId: MarkerId(house.id),
         position: LatLng(house.lat, house.lng),
+            icon: houseIcon,
             onTap: () {
               _showCustomInfoWindow(house);
             },
@@ -45,7 +51,7 @@ class _HouseMapScreenState extends State<HouseMapScreen> {
       ),
       home: Scaffold(
         appBar: AppBar(
-            title: const Text('Houses', style: TextStyle(color: Colors.white)), backgroundColor: Color(0xFF0D1702),
+            title: const Text('Buurt map ', style: TextStyle(color: Colors.white)), backgroundColor: Color(0xFF0D1702),
           leading: Container(
             margin: const EdgeInsets.all(8.0), // Add margin here
             child: IconButton(
@@ -80,39 +86,90 @@ class _HouseMapScreenState extends State<HouseMapScreen> {
     );
 
   }
-
+  @override
+  void initState() {
+    BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(size: Size(4, 4)), 'assets/images/house_icon.png')
+        .then((onValue) {
+      houseIcon = onValue;
+    });
+  }
   void _showCustomInfoWindow(House house) {
     showModalBottomSheet(
       context: context,
-      builder: (builder) {
-        return Container(
-          height: 150, // Adjust the height as needed
-          color: Color(0xFF0D1702),
-          child: Column(
-            children: [
-              ListTile(
-                title: Row(
+      isScrollControlled: false, // Set to true to allow scrolling
+      builder: (context) {
+        return SingleChildScrollView( // Wrap content with SingleChildScrollView
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            color: Color(0xFF0D1702),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(house.name, style: TextStyle(color: Colors.white)),
-                    IconButton(
-                      icon: Icon(
-                        Icons.send,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(house.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w800)),
+                        Text(house.address, style: TextStyle(color: Color(0xFFA1C47E))),
+                      ],
+                    ),
+
+                    // Button
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
                         color: Colors.white,
                       ),
-                      onPressed: () {
-                        // Handle button press
-                      },
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.send,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          // Handle button press
+                        },
+                      ),
                     ),
                   ],
                 ),
-                subtitle: Text(house.address, style: TextStyle(color: Color(0xFFA1C47E))),
-              ),
-            ],
+
+                SizedBox(height: 8.0), // Add spacing as needed
+                Text(
+                  'Bewoners',
+                  style: TextStyle(color: Colors.white),
+                ),
+                _buildHousematesFutureBuilder(house.id),
+              ],
+            )
+
+
           ),
         );
       },
     );
   }
+
+  Widget _buildHousematesFutureBuilder(String houseId) {
+    return FutureBuilder<List<User>>(
+      future: _userController.getUsersInHouse(houseId),
+      builder: (BuildContext context, AsyncSnapshot<List<User>> housematesSnapshot) {
+        if (housematesSnapshot.connectionState == ConnectionState.done) {
+          if (housematesSnapshot.hasData) {
+            List<User> housemates = housematesSnapshot.data!;
+            return buildHousemates(housemates);
+          } else if (housematesSnapshot.hasError) {
+            return Center(
+              child: Text('Error: ${housematesSnapshot.error}'),
+            );
+          }
+        }
+        return Text('');
+      },
+    );
+  }
+
 
 }

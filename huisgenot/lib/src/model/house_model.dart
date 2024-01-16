@@ -23,8 +23,8 @@ class House {
         name: map['name'],
         address: map['address'],
         description: map['description'],
-        lat: map['lat'],
-        lng: map['lng']
+        lat: map['lat'] ?? 0.0,
+        lng: map['lng'] ?? 0.0
 
     );
   }
