@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:huisgenot/src/model/feed_model.dart';
+import 'dart:developer';
 
 class FeedController {
   final CollectionReference feedsCollection =
       FirebaseFirestore.instance.collection('feeds');
-  final collection = "feed";
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  final collection = "feeds";
 
   Future<void> uploadFeed(FeedItem feed) async {
     try {
@@ -16,14 +18,19 @@ class FeedController {
   }
 
   Stream<List<FeedItem>> getFeedItems() {
-    return feedsCollection
-        .orderBy('postDate', descending: true)
+    return _firestore
+        .collection(collection)
         .snapshots()
         .map((QuerySnapshot querySnapshot) {
-      return querySnapshot.docs.map((doc) {
-        return FeedItem.fromDocument(doc);
-      }).toList();
+      if (querySnapshot.docs.isEmpty) {
+        print('No feed items found.');
+        return <FeedItem>[]; // Return an empty list if no documents are found
+      } else {
+        return querySnapshot.docs.map((doc) {
+          print('Feed item found: ${doc.id}');
+          return FeedItem.fromDocument(doc);
+        }).toList();
+      }
     });
   }
 }
-

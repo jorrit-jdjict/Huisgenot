@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:huisgenot/src/model/feed_model.dart';
 import 'package:huisgenot/src/view/screens/create_feed_or_event_screen.dart';
@@ -11,6 +13,10 @@ class FeedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _feedController.getFeedItems();
+    });
+
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
 
@@ -103,6 +109,7 @@ class FeedScreen extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   var feedItems = snapshot.data!;
+                  inspect(feedItems); // Inspect the entire list
                   return ListView.builder(
                     itemCount: feedItems.length,
                     itemBuilder: (BuildContext context, int index) {
@@ -110,6 +117,7 @@ class FeedScreen extends StatelessWidget {
                     },
                   );
                 } else if (snapshot.hasError) {
+                  inspect(snapshot.error); // Inspect the error
                   return Text('Error: ${snapshot.error}');
                 } else {
                   return Center(child: CircularProgressIndicator());

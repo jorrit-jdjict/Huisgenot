@@ -38,10 +38,11 @@ class FeedItem {
 
   factory FeedItem.fromDocument(DocumentSnapshot documentSnapshot) {
     String id = documentSnapshot.id;
-    String imageUrl = documentSnapshot.get('imageUrl');
+    String imageUrl = 'assets/images/card_image.png';
     String postTitle = documentSnapshot.get('postTitle');
-    DateTime postDate = documentSnapshot.get('postDate');
-    House postAuthor = documentSnapshot.get('postAuthor');
+    DateTime postDate = DateTime.parse(documentSnapshot.get('postDate'));
+    Map<String, dynamic> postAuthorMap = documentSnapshot.get('postAuthor');
+    House postAuthor = House.fromMap(postAuthorMap);
 
     return FeedItem(
         id: id,
