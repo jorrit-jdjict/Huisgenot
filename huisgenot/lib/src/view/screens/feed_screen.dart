@@ -103,6 +103,7 @@ class FeedScreen extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   var feedItems = snapshot.data!;
+                  print(feedItems.length);
                   return ListView.builder(
                     itemCount: feedItems.length,
                     itemBuilder: (BuildContext context, int index) {

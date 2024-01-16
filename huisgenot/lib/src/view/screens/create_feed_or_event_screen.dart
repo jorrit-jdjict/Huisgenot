@@ -73,7 +73,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
           name: 'Logged in user',
           address: 'test',
           description:
-              'bruuh'), //TODO: change this to the logged in user house id
+              'bruuh', lat:0, lng:0), //TODO: change this to the logged in user house id
     );
 
     // Upload feed only if the selected option is 'Feed'
@@ -91,7 +91,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             name: 'Logged in user',
             address: 'test',
             description:
-            'bruuh'), //TODO: change this to the logged in user house id
+            'bruuh', lat:0, lng:0), //TODO: change this to the logged in user house id
       );
 
       // Upload feed only if the selected option is 'Feed'
