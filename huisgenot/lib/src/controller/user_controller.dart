@@ -1,6 +1,5 @@
+// user_controller.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:huisgenot/src/model/chat_messages.dart';
-
 import '../model/user_model.dart';
 
 class UserController {
@@ -17,5 +16,34 @@ class UserController {
       }).toList();
     });
   }
-}
 
+  Future<User?> getUserById(String userId) async {
+    try {
+      var snapshot = await _firestore.collection(collection).doc(userId).get();
+
+      if (snapshot.exists) {
+        return User.fromDocument(snapshot);
+      } else {
+        print('Gebruiker met ID $userId niet gevonden.');
+        return null;
+      }
+    } catch (e) {
+      print('Fout bij ophalen van gebruiker uit Firebase: $e');
+      return null;
+    }
+  }
+
+  Future<List<User>> getUsersInHouse(String houseId) async {
+    try {
+      var snapshot = await _firestore
+          .collection(collection)
+          .where('house_id', isEqualTo: houseId)
+          .get();
+
+      return snapshot.docs.map((doc) => User.fromDocument(doc)).toList();
+    } catch (e) {
+      print('Fout bij ophalen van gebruikers in huis uit Firebase: $e');
+      return [];
+    }
+  }
+}
