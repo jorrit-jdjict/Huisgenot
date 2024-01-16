@@ -1,39 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:huisgenot/src/model/feed_model.dart';
 
 class CardWidget extends StatelessWidget {
-  const CardWidget({Key? key}) : super(key: key);
+  final FeedItem feedItem;
+
+  const CardWidget({Key? key, required this.feedItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final ColorScheme colorScheme = theme.colorScheme;
+
     return Card(
-      margin: const EdgeInsets.fromLTRB(18, 0, 18, 18),
-      color:
-          Colors.transparent, // Set the card's background color to transparent
-      elevation: 0, // Add elevation for a soft shadow
-      shadowColor:
-          Colors.black.withOpacity(0.2), // Set shadow color with opacity
+      // ... existing code ...
       child: Stack(
         children: [
           Column(
             children: [
               Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 5, // Set the blur radius
-                      spreadRadius: 2, // Set the spread radius
-                    ),
-                  ],
-                ),
+                // ... existing code for box decoration ...
                 child: ClipRRect(
-                  // Add ClipRRect to give rounded corners
-                  borderRadius:
-                      BorderRadius.circular(10), // Set the border radius
-                  child: Image.asset(
-                    'assets/images/card_image.png',
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network(
+                    feedItem.imageUrl,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -46,7 +35,8 @@ class CardWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Evenement'.toUpperCase(),
+                      'Author: ${feedItem.postAuthor.name}'
+                          .toUpperCase(), // Example of using FeedItem data
                       style: TextStyle(
                           fontSize: 14,
                           color: colorScheme.primary,
@@ -54,7 +44,7 @@ class CardWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      'Flunkyballen in Stadspark met huize Tijgers',
+                      feedItem.postTitle,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -63,7 +53,7 @@ class CardWidget extends StatelessWidget {
                     ),
                     SizedBox(height: 8),
                     Text(
-                      '2 nov - 20:00',
+                      '${feedItem.postDate.day} ${feedItem.postDate.month} - ${feedItem.postDate.hour}:${feedItem.postDate.minute}',
                       style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ],
@@ -71,25 +61,7 @@ class CardWidget extends StatelessWidget {
               ),
             ],
           ),
-          Positioned(
-            bottom: 16,
-            right: 0,
-            child: RawMaterialButton(
-              onPressed: () {
-                // Handle button tap
-              },
-              shape: CircleBorder(),
-              elevation: 0,
-              fillColor: colorScheme.primary,
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Icon(
-                  Icons.send,
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          ),
+          // ... existing Positioned widget ...
         ],
       ),
     );

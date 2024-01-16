@@ -25,8 +25,7 @@ class HuisGenot extends StatelessWidget {
     return MaterialApp(
       title: 'Huisgenot',
       theme: ThemeData(colorScheme: myColorScheme),
-      home: const FeedScreen(),
-      // home: LoginScreen(),
+      home: FeedScreen(),
     );
   }
 }

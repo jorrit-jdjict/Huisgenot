@@ -18,7 +18,7 @@ class CreateFeedOrEventScreen extends StatefulWidget {
 class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   String selectedOption = 'Feed'; // Default selected option
   late String imagePath; // To store the selected image path
-  late DateTime selectedDate = DateTime.now(); // To store the selected date
+  DateTime? selectedDate; // To store the selected date
   FeedController feedController = FeedController();
   EventController eventController = EventController();
   TextEditingController titleController = TextEditingController();
@@ -55,49 +55,38 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   }
 
   void _handleUpload() {
+
+    // Get data from UI
+    // Get data from UI
     String title = titleController.text;
     String description = descriptionController.text;
-    print(selectedOption);
-    if (selectedOption == "Feed") {
-      FeedItem newFeed = FeedItem(
-        id: '1',
-        //TODO check how to deal with ID
-        imageUrl: 'https://example.com/image.jpg',
-        postTitle: title,
-        postDate: DateTime.now(),
-        postAuthor: House(
-            id: '1',
-            name: 'Logged in user',
-            address: 'test',
-            description:
-            'bruuh'), //TODO: change this to the logged in user house id
-      );
+    // Add any other necessary fields
+    // Add any other necessary fields
 
-      feedController.uploadFeed(newFeed);
-    } else if (selectedOption == "Event") {
-      EventItem newEvent = EventItem(id: '1', imageUrl: "https://example.com/image.jpg", eventTitle: title, eventDescription: description, postDate: selectedDate, postAuthor: House(
-      id: '1',
-      name: 'Logged in user',
-      address: 'test',
+    FeedItem newFeed = FeedItem(
+      id: '1', //TODO check how to deal with ID
+      imageUrl: 'https://example.com/image.jpg',
+      postTitle: title,
+      postDate: DateTime.now(),
+      postAuthor: House(
+          id: '1',
+          name: 'Logged in user',
+          address: 'test',
           description:
-          'bruuh'), //TODO: change this to the logged in user house id)
-      );
-      eventController.uploadFeed(newEvent);
-    }
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const FeedScreen(),
-      ),
+              'bruuh'), //TODO: change this to the logged in user house id
     );
+
+    // Upload feed only if the selected option is 'Feed'
+    if (selectedOption == 'Feed') {
+      feedController.uploadFeed(newFeed);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Create Feed or Event'),
+        title: const Text('Bericht posten'),
         // Add any additional styling you want for the app bar
       ),
       body: Padding(
@@ -106,11 +95,8 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Select Type:',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .subtitle1,
+              'Wat wil je posten?:',
+              style: Theme.of(context).textTheme.subtitle1,
             ),
             Row(
               children: [
@@ -123,7 +109,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                     });
                   },
                 ),
-                const Text('Feed'),
+                const Text('Bericht'),
                 Radio(
                   value: 'Event',
                   groupValue: selectedOption,
@@ -133,7 +119,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                     });
                   },
                 ),
-                const Text('Event'),
+                const Text('Evenement'),
               ],
             ),
             Visibility(
@@ -142,25 +128,22 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Date:',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .subtitle1,
+                    'Datum:',
+                    style: Theme.of(context).textTheme.subtitle1,
                   ),
                   GestureDetector(
                     onTap: _selectDate,
                     child: Container(
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
-                        color: Colors.orange, // Set the background color
-                        border: Border.all(color: Colors.grey),
+                        color: Colors.green, // Set the background color
+                        border: Border.all(color: Colors.green),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Text(
                         selectedDate != null
                             ? selectedDate!.toLocal().toString().split(' ')[0]
-                            : 'Select Date',
+                            : 'Selecteer datum',
                       ),
                     ),
                   ),
@@ -170,32 +153,26 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             ),
             const SizedBox(height: 24.0),
             Text(
-              'Title:',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .subtitle1,
+              'Titel:',
+              style: Theme.of(context).textTheme.subtitle1,
             ),
             TextField(
               controller: titleController,
               decoration: InputDecoration(
-                hintText: 'Enter title...',
+                hintText: 'Titel...',
               ),
             ),
             const SizedBox(height: 24.0),
             Text(
-              'Description:',
-              style: Theme
-                  .of(context)
-                  .textTheme
-                  .subtitle1,
+              'Omschrijving:',
+              style: Theme.of(context).textTheme.subtitle1,
             ),
             Expanded(
               child: TextField(
                 controller: descriptionController,
                 maxLines: null,
                 decoration: InputDecoration(
-                  hintText: 'Enter description...',
+                  hintText: 'Omschrijving...',
                 ),
               ),
             ),
@@ -218,7 +195,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                       children: [
                         Icon(Icons.file_upload, color: Colors.white),
                         const SizedBox(width: 8.0),
-                        Text('Upload Picture here',
+                        Text('Afbeelding uploaden',
                             style: TextStyle(color: Colors.white)),
                       ],
                     ),
@@ -240,7 +217,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
-                    'UPLOAD',
+                    'Posten',
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
