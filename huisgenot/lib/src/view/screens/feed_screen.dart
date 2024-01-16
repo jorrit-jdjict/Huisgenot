@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:huisgenot/src/model/feed_model.dart';
+import 'package:huisgenot/src/view/screens/create_feed_or_event_screen.dart';
+import 'package:huisgenot/src/view/screens/house_screen.dart';
 import '../widgets/card_widget.dart';
 import 'package:huisgenot/src/view/screens/chat_overview_screen.dart';
+import 'package:huisgenot/src/controller/feed_controller.dart';
 
 class FeedScreen extends StatelessWidget {
-  const FeedScreen({super.key});
+  final FeedController _feedController = FeedController();
 
   @override
   Widget build(BuildContext context) {
@@ -86,10 +90,22 @@ class FeedScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 10,
-              itemBuilder: (BuildContext context, int index) {
-                return const CardWidget();
+            child: StreamBuilder<List<FeedItem>>(
+              stream: _feedController.getFeedItems(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  var feedItems = snapshot.data!;
+                  return ListView.builder(
+                    itemCount: feedItems.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return CardWidget(feedItem: feedItems[index]);
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
               },
             ),
           ),

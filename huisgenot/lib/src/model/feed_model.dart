@@ -1,4 +1,5 @@
 import 'package:huisgenot/src/model/house_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FeedItem {
   final String id;
@@ -33,5 +34,20 @@ class FeedItem {
       'postDate': postDate.toIso8601String(),
       'postAuthor': postAuthor.toMap(),
     };
+  }
+
+  factory FeedItem.fromDocument(DocumentSnapshot documentSnapshot) {
+    String id = documentSnapshot.id;
+    String imageUrl = documentSnapshot.get('imageUrl');
+    String postTitle = documentSnapshot.get('postTitle');
+    DateTime postDate = documentSnapshot.get('postDate');
+    House postAuthor = documentSnapshot.get('postAuthor');
+
+    return FeedItem(
+        id: id,
+        imageUrl: imageUrl,
+        postTitle: postTitle,
+        postDate: postDate,
+        postAuthor: postAuthor);
   }
 }
