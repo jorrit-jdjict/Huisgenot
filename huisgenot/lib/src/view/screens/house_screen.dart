@@ -16,13 +16,14 @@ class HouseScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profiel'),
+        title: const Text('Profiel', style: TextStyle(color: Colors.white)),
         leading: Container(
           margin: const EdgeInsets.all(8.0),
           child: IconButton(
             icon: const Icon(
               Icons.arrow_back,
               size: 24.0,
+              color: Colors.white,
             ),
             onPressed: () {
               Navigator.pop(context);
@@ -33,7 +34,10 @@ class HouseScreen extends StatelessWidget {
           Container(
             margin: const EdgeInsets.all(8.0),
             child: IconButton(
-              icon: const Icon(Icons.edit),
+              icon: const Icon(
+                Icons.edit,
+                color: Colors.white,
+              ),
               onPressed: () {
                 // Handle the edit button click
               },
@@ -86,8 +90,9 @@ class HouseScreen extends StatelessWidget {
                     const Text(
                       'Huisgenoten',
                       style: TextStyle(
-                        fontSize: 18,
+                        fontSize: 24,
                         fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
                     FutureBuilder<List<User>>(
@@ -111,22 +116,6 @@ class HouseScreen extends StatelessWidget {
                           child: CircularProgressIndicator(),
                         );
                       },
-                    ),
-                    Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            // Handle the button click
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-                          ),
-                          child: const Text(
-                            '+ Ik woon hier',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                      ],
                     ),
                   ],
                 ),
@@ -154,20 +143,19 @@ class HouseScreen extends StatelessWidget {
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
+            color: Colors.white,
           ),
         ),
         Text(
           house.address,
           style: const TextStyle(
             fontSize: 16,
-            color: Colors.grey,
+            color: Color.fromARGB(255, 161, 196, 126),
           ),
         ),
         Text(
           house.description,
-          style: const TextStyle(
-            fontSize: 16,
-          ),
+          style: TextStyle(fontSize: 16, color: Colors.white),
         ),
       ],
     );
@@ -177,7 +165,8 @@ class HouseScreen extends StatelessWidget {
     return Column(
       children: [
         for (User housemate in housemates)
-          _buildHousemate('${housemate.firstName} ${housemate.lastName}', housemate.bio),
+          _buildHousemate(
+              '${housemate.firstName} ${housemate.lastName}', housemate.bio),
       ],
     );
   }
@@ -189,7 +178,7 @@ class HouseScreen extends StatelessWidget {
         children: [
           const CircleAvatar(
             radius: 25,
-            backgroundColor: Colors.grey,
+            backgroundColor: Color.fromARGB(255, 161, 196, 126),
           ),
           const SizedBox(width: 10),
           Column(
@@ -197,12 +186,15 @@ class HouseScreen extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
               ),
-              Text(bio),
+              Text(
+                bio,
+                style: TextStyle(color: Color.fromARGB(255, 161, 196, 126)),
+              ),
             ],
           ),
         ],
