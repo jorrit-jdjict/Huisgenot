@@ -33,6 +33,16 @@ class UserController {
     }
   }
 
+  Future<void> addUserToFirebase(User user) async {
+    try {
+      await _firestore.collection(collection).add(user.toJson());
+      print(
+          'Gebruiker toegevoegd aan Firebase: ${user.firstName} ${user.lastName}');
+    } catch (e) {
+      print('Fout bij toevoegen van gebruiker aan Firebase: $e');
+    }
+  }
+
   Future<List<User>> getUsersInHouse(String houseId) async {
     try {
       var snapshot = await _firestore
