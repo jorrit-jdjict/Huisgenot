@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,20 +46,29 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBOkAw0sgdbgG4RDqYoLZnOFkCR4fx3iCk',
+    appId: '1:33662473182:web:f09e8a70917694c0c0c34f',
+    messagingSenderId: '33662473182',
+    projectId: 'huisgenot-fba16',
+    authDomain: 'huisgenot-fba16.firebaseapp.com',
+    storageBucket: 'huisgenot-fba16.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCtuUowoBtjvTP3pmkHBNSEpdjIAHy7zYM',
-    appId: '1:552707373794:android:e07b44d4f1c00bd4c9fcbb',
-    messagingSenderId: '552707373794',
-    projectId: 'huisgenot-513c0',
-    storageBucket: 'huisgenot-513c0.appspot.com',
+    apiKey: 'AIzaSyCuX_rXk6I-1WTBzjQfP95Z1GF0YCk8sUU',
+    appId: '1:33662473182:android:163fb22a724b5a9ac0c34f',
+    messagingSenderId: '33662473182',
+    projectId: 'huisgenot-fba16',
+    storageBucket: 'huisgenot-fba16.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAxx8sCM8Ych2yFvKxvFHuTx6n6-Y0slBU',
-    appId: '1:552707373794:ios:d935da3078c39f50c9fcbb',
-    messagingSenderId: '552707373794',
-    projectId: 'huisgenot-513c0',
-    storageBucket: 'huisgenot-513c0.appspot.com',
+    apiKey: 'AIzaSyCKLPOw-rT9aP5H77qbghbP-xm2hFffe3Y',
+    appId: '1:33662473182:ios:2c2f58d1b0d7a656c0c34f',
+    messagingSenderId: '33662473182',
+    projectId: 'huisgenot-fba16',
+    storageBucket: 'huisgenot-fba16.appspot.com',
     iosBundleId: 'com.example.huisgenot',
   );
 }

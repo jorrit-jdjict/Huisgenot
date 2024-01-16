@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
-// import 'package:huisgenot/src/view/screens/home_screen.dart';
-// import '../widgets/chat_listitem_widget.dart';
+import 'package:huisgenot/src/controller/house_controller.dart';
+import 'package:huisgenot/src/controller/user_controller.dart';
+import 'package:huisgenot/src/model/chat_model.dart';
 import 'package:huisgenot/src/view/screens/chat_conversation_screen.dart';
 
-class ChatOverviewScreen extends StatelessWidget {
-  const ChatOverviewScreen({super.key});
+import '../../controller/chat_controller.dart';
+import '../../model/house_model.dart';
+import '../../model/user_model.dart';
+
+class ChatOverviewScreen extends StatefulWidget {
+  const ChatOverviewScreen({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _ChatOverviewScreenState createState() => _ChatOverviewScreenState();
+}
+
+class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
+
+  final ChatController _chatController = ChatController();
+  final UserController _userController = UserController();
+  final HouseController _houseController = HouseController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,35 +63,112 @@ class ChatOverviewScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: 10, // Replace with your actual chat list count
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  onTap: () {
-                    // Navigate to the ChatConversationScreen with user data
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ChatConversationScreen(
-                          userName:
-                              'User Name', // Replace with actual user data
-                          userProfileImage:
-                              'assets/images/profile_img.png', // Replace with actual user data
-                        ),
-                      ),
-                    );
-                  },
-                  title:
-                      const Text('User Name'), // Replace with actual user data
-                  subtitle: const Text(
-                      'Last message goes here...'), // Replace with actual user data
-                  leading: const CircleAvatar(
-                    backgroundImage: AssetImage(
-                        'assets/images/profile_img.png'), // Replace with actual user data
-                  ),
-                );
-              },
-            ),
+            child: StreamBuilder<List<User>>(
+              stream: _userController.getUsers(),
+              builder: (context, snapshot1) {
+                if (snapshot1.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator(); // Toon een laadindicator tijdens het ophalen van gegevens
+                } else if (snapshot1.hasError) {
+                  return Text('Fout: ${snapshot1.error}');
+                } else {
+
+                  // Get house_id of current user
+                  String userHouseId = "";
+                  for (var user in snapshot1.data!) {
+                    if (user.id == "7sZXYmgI4KM5UoItkr1l") { // TODO: Replace user ID with global variable or something
+                      userHouseId = user.houseId;
+                      break;
+                    }
+                  }
+
+                  return StreamBuilder<List<Chat>>(
+                    stream: _chatController.getChats(),
+                    builder: (context, snapshot2) {
+                      if (snapshot2.connectionState == ConnectionState.waiting) {
+                        return const CircularProgressIndicator(); // Toon een laadindicator tijdens het ophalen van gegevens
+                      } else if (snapshot2.hasError) {
+                        return Text('Fout: ${snapshot2.error}');
+                      } else {
+
+                        // Get chats that have house ID of user as member
+                        List<Chat?> chats = [];
+                        for (var chat in snapshot2.data!) {
+                          if (
+                            chat.houseId1 == userHouseId ||
+                            chat.houseId2 == userHouseId
+                          ) {
+                            chats.add(chat);
+                          }
+                        }
+
+                        return ListView.builder(
+                          itemCount: chats.length,
+                          itemBuilder: (BuildContext context, int index) {
+
+                            return StreamBuilder<List<House>>(
+                              stream: _houseController.getHouses(),
+                              builder: (context, snapshot3) {
+                                if (snapshot3.connectionState == ConnectionState.waiting) {
+                                  return const CircularProgressIndicator(); // Toon een laadindicator tijdens het ophalen van gegevens
+                                } else if (snapshot3.hasError) {
+                                  return Text('Fout: ${snapshot3.error}');
+                                } else {
+
+                                  // Get name of house 1
+                                  String houseName1 = "";
+                                  for (var house in snapshot3.data!) {
+                                    if (house.id == chats.elementAt(index)?.houseId1) {
+                                      houseName1 = house.name;
+                                      break;
+                                    }
+                                  }
+
+                                  // Get name of house 2
+                                  String houseName2 = "";
+                                  for (var house in snapshot3.data!) {
+                                    if (house.id == chats.elementAt(index)?.houseId2) {
+                                      houseName2 = house.name;
+                                      break;
+                                    }
+                                  }
+
+                                  return ListTile(
+                                    onTap: () {
+                                      // Navigate to the ChatConversationScreen with user data
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                          const ChatConversationScreen(
+                                            userName:
+                                            'User Name',
+                                            userProfileImage:
+                                            'assets/images/profile_img.png', // Replace with actual user data
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    title:
+                                    Text("$houseName1 - $houseName2"),
+                                    subtitle: const Text(
+                                        'Last message goes here...'),
+                                    // Replace with actual user data
+                                    leading: const CircleAvatar(
+                                      backgroundImage: AssetImage(
+                                          'assets/images/profile_img.png'), // Replace with actual user data
+                                    ),
+                                  );
+                                }
+                              }
+                            );
+                          },
+                        );
+                      }
+                    },
+                  );
+                }
+              }
+            )
           ),
         ],
       ),

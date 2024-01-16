@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'view/screens/homeScreen.dart';
+import 'package:huisgenot/src/view/screens/login_screen.dart';
+import 'view/screens/feed_screen.dart';
 
 /// The Widget that configures your application.
 class HuisGenot extends StatelessWidget {
@@ -13,7 +14,7 @@ class HuisGenot extends StatelessWidget {
     surface: Color(0xFF426421),
     onSurface: Color.fromARGB(255, 52, 78, 26),
     onError: Color(0xFFF32424),
-    primary: Color(0xFF426421), // Define your primary color
+    primary: Color(0xFFA1C47E), // Define your primary color
     secondary: Color.fromARGB(255, 46, 72, 20), // Define your secondary color
     onPrimary: Color(0xFFF7F7F7),
     onSecondary: Color(0xFF0D1702),
@@ -24,7 +25,8 @@ class HuisGenot extends StatelessWidget {
     return MaterialApp(
       title: 'Huisgenot',
       theme: ThemeData(colorScheme: myColorScheme),
-      home: const HomeScreen(),
+      home: const FeedScreen(),
+      // home: LoginScreen(),
     );
   }
 }
