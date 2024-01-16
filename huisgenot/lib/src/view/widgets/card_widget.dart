@@ -23,15 +23,6 @@ class CardWidget extends StatelessWidget {
           Column(
             children: [
               Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      blurRadius: 5, // Set the blur radius
-                      spreadRadius: 2, // Set the spread radius
-                    ),
-                  ],
-                ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
@@ -43,7 +34,7 @@ class CardWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -55,16 +46,16 @@ class CardWidget extends StatelessWidget {
                           color: colorScheme.primary,
                           fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       feedItem.postTitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       '${feedItem.postDate.day}/${feedItem.postDate.month}/${feedItem.postDate.year} @ ${feedItem.postDate.hour}:${feedItem.postDate.minute}',
                       style: TextStyle(fontSize: 14, color: Colors.grey),

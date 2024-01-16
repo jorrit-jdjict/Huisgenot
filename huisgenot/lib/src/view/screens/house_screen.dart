@@ -8,9 +8,11 @@ class HouseScreen extends StatelessWidget {
   final UserController _userController = UserController();
   final HouseController _houseController = HouseController();
 
+  HouseScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final String userId = '7sZXYmgI4KM5UoItkr1l';
+    const String userId = '7sZXYmgI4KM5UoItkr1l';
 
     return Scaffold(
       appBar: AppBar(
@@ -51,7 +53,7 @@ class HouseScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 60,
                       backgroundImage: AssetImage(
                         'assets/images/profile_img.png',
@@ -75,7 +77,7 @@ class HouseScreen extends StatelessWidget {
                           }
                         }
 
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       },
@@ -105,7 +107,7 @@ class HouseScreen extends StatelessWidget {
                           }
                         }
 
-                        return Center(
+                        return const Center(
                           child: CircularProgressIndicator(),
                         );
                       },
@@ -117,7 +119,7 @@ class HouseScreen extends StatelessWidget {
                             // Handle the button click
                           },
                           style: ElevatedButton.styleFrom(
-                            backgroundColor: Color.fromARGB(0, 0, 0, 0),
+                            backgroundColor: const Color.fromARGB(0, 0, 0, 0),
                           ),
                           child: const Text(
                             '+ Ik woon hier',
@@ -135,7 +137,7 @@ class HouseScreen extends StatelessWidget {
               );
             }
           }
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         },
@@ -149,21 +151,21 @@ class HouseScreen extends StatelessWidget {
       children: [
         Text(
           house.name,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
           house.address,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
             color: Colors.grey,
           ),
         ),
         Text(
           house.description,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 16,
           ),
         ),
@@ -185,7 +187,7 @@ class HouseScreen extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
         children: [
-          CircleAvatar(
+          const CircleAvatar(
             radius: 25,
             backgroundColor: Colors.grey,
           ),
@@ -195,7 +197,7 @@ class HouseScreen extends StatelessWidget {
             children: [
               Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
