@@ -23,6 +23,19 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login', style: TextStyle(color: Colors.white)),
+        leading: Container(
+          margin: const EdgeInsets.all(8.0),
+          child: IconButton(
+            icon: const Icon(
+              Icons.arrow_back,
+              size: 24.0,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
