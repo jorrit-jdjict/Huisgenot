@@ -29,11 +29,12 @@ class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chats'),
+        title: const Text('Chats', style: const TextStyle(color: Color(0xFFF7F7F7)) ),
+        backgroundColor: Colors.transparent,
         leading: Container(
           margin: const EdgeInsets.all(8.0), // Add margin here
           child: IconButton(
-            icon: const Icon(Icons.chevron_left),
+            icon: const Icon(Icons.chevron_left,color: Color(0xFFF7F7F7)),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -43,7 +44,7 @@ class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
           Container(
             margin: const EdgeInsets.all(8.0), // Add margin here
             child: IconButton(
-              icon: const Icon(Icons.search),
+              icon: const Icon(Icons.search, color: Color(0xFFF7F7F7)),
               onPressed: () {
                 // Navigator.push(
                 //     context,
@@ -56,14 +57,6 @@ class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
       ),
       body: Column(
         children: [
-          Container(
-            padding: const EdgeInsets.all(16),
-            child: const Row(
-              children: [
-                Spacer(),
-              ],
-            ),
-          ),
           Expanded(
             child: StreamBuilder<List<User>>(
               stream: _userController.getUsers(),
@@ -134,32 +127,41 @@ class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
                                     }
                                   }
 
-                                  return ListTile(
-                                    onTap: () {
-                                      // Navigate to the ChatConversationScreen with user data
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                           ChatConversationScreen(
-                                            chatId:
-                                            '$houseName1-$houseName2',
-                                            userProfileImage:
-                                            'assets/images/profile_img.png', // Replace with actual user data
-                                          ),
+                                  return Container(
+                                    padding: EdgeInsets.all(8.0),
+                                    decoration: const BoxDecoration(
+                                      border: Border(
+                                        bottom: BorderSide(
+                                          color: Color(0x54F7F7F7), // Change the color to your preference
+                                          width: 0.5, // Change the width as needed
                                         ),
-                                      );
-                                    },
-                                    title:
-                                    Text("$houseName1 - $houseName2"),
-                                    subtitle: const Text(
-                                        'Last message goes here...'),
-                                    // Replace with actual user data
-                                    leading: const CircleAvatar(
-                                      backgroundImage: AssetImage(
-                                          'assets/images/profile_img.png'), // Replace with actual user data
+                                      ),
                                     ),
+                                    child: ListTile(
+                                      onTap: () {
+                                        // Navigate to the ChatConversationScreen with user data
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ChatConversationScreen(
+                                              chatId: '$houseName1-$houseName2',
+                                              userProfileImage: 'assets/images/profile_img.png', // Replace with actual user data
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                      title: Text("$houseName1 - $houseName2", style: const TextStyle(color: Color(0xFFF7F7F7), fontWeight: FontWeight.w800)),
+                                      subtitle: const Text(
+                                        'Last message goes here...',
+                                        style: TextStyle(color: Color(0xA1F7F7F7)),
+                                      ),
+                                      leading: const CircleAvatar(
+                                        backgroundImage: AssetImage('assets/images/profile_img.png'), // Replace with actual user data
+                                      ),
+                                    ),
+
                                   );
+
                                 }
                               }
                             );
