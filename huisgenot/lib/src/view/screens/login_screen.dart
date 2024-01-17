@@ -18,7 +18,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final HouseController _houseController = HouseController();
   House? _selectedHouse;
 
-  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -172,7 +171,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    constSnackBar(
+                    const SnackBar(
                       content:  Text(
                         'Alle velden zijn verplicht',
                         style: TextStyle(

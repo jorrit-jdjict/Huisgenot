@@ -8,7 +8,7 @@ Widget buildHousemates(List<User> housemates) {
     children: [
       for (User housemate in housemates)
         _buildHousemate(
-            '${housemate.firstName} ${housemate.lastName}', housemate.bio),
+            '${housemate.first_name} ${housemate.last_name}', housemate.bio),
     ],
   );
 }

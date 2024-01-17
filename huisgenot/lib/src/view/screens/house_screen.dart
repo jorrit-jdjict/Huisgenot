@@ -163,14 +163,5 @@ class HouseScreen extends StatelessWidget {
     );
   }
 
-  Widget buildHousemates(List<User> housemates) {
-    return Column(
-      children: [
-        for (User housemate in housemates)
-          _buildHousemate(
-              '${housemate.first_name} ${housemate.last_name}', housemate.bio),
-      ],
-    );
-  }
 
 }
