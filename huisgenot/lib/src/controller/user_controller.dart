@@ -37,7 +37,7 @@ class UserController {
     try {
       await _firestore.collection(collection).add(user.toJson());
       print(
-          'Gebruiker toegevoegd aan Firebase: ${user.firstName} ${user.lastName}');
+          'Gebruiker toegevoegd aan Firebase: ${user.first_name} ${user.last_name}');
     } catch (e) {
       print('Fout bij toevoegen van gebruiker aan Firebase: $e');
     }
