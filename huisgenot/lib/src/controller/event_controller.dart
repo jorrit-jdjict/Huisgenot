@@ -27,7 +27,7 @@ class EventController {
       },
     );
   }
-  Future<String> getLastEventId() async {
+  Future<int> getLastEventId() async {
     try {
       QuerySnapshot querySnapshot = await eventsCollection
           .orderBy('eventId', descending: true)
@@ -36,14 +36,15 @@ class EventController {
 
       if (querySnapshot.docs.isNotEmpty) {
         // Return the ID of the last created event
-        int eventId = int.parse(querySnapshot.docs.first.get("eventId")) + 1;
-        return eventId.toString();
+
+        int eventId = querySnapshot.docs.first.get("eventId") + 1;
+        return eventId;
       } else {
-        return "1"; // No events found
+        return 1; // No events found
       }
     } catch (e) {
       print('Error getting last event ID: $e');
-      return "-1";
+      return -1;
     }
   }
 }

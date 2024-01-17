@@ -58,7 +58,6 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   }
 
   Future<void> _handlePictureUpload() async {
-    // Upload the image to Firebase Storage
     imagePath = pickedFile.path;
     fileName = DateTime.now().millisecondsSinceEpoch.toString();
     storagePath = 'images/$fileName.jpg';
@@ -78,7 +77,8 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     // Add any other necessary fields
     // Add any other necessary fields
     if (pickedFile != null) {
-      _handlePictureUpload();
+      // Upload the image to Firebase Storage
+      await _handlePictureUpload();
     }
 
     if (selectedOption == 'Feed') {
@@ -99,7 +99,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
 
       feedController.uploadFeed(newFeed);
     }else if(selectedOption == "Event"){
-      String lastId = await eventController.getLastEventId();
+      int lastId = await eventController.getLastEventId();
       EventItem newEvent = EventItem(
         eventId: lastId, //TODO check how to deal with ID
         imageUrl: imageUrl,

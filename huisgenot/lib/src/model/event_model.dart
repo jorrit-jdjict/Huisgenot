@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:huisgenot/src/model/house_model.dart';
 
 class EventItem {
-  final String eventId;
+  final int eventId;
   final String imageUrl;
   final String eventTitle;
   final String eventDescription;
@@ -53,7 +53,7 @@ class EventItem {
     };
   }
   factory EventItem.fromDocument(DocumentSnapshot documentSnapshot) {
-    String eventId = documentSnapshot.get('eventId');
+    int eventId = documentSnapshot.get('eventId');
     String imageUrl = documentSnapshot.get('imageUrl');
     String eventTitle = documentSnapshot.get('eventTitle');
     String eventDescription = documentSnapshot.get('eventDescription');
