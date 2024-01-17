@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:huisgenot/src/model/feed_model.dart';
 
+import '../screens/chat_conversation_screen.dart';
+
 class CardWidget extends StatelessWidget {
   final FeedItem feedItem;
 
@@ -71,6 +73,18 @@ class CardWidget extends StatelessWidget {
             child: RawMaterialButton(
               onPressed: () {
                 // Handle button tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        ChatConversationScreen(
+                          chatId:
+                          'Tijger-Dikbil',
+                          userProfileImage:
+                          'assets/images/profile_img.png', // Replace with actual user data
+                        ),
+                  ),
+                );
               },
               shape: CircleBorder(),
               elevation: 0,

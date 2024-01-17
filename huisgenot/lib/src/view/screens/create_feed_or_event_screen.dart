@@ -66,7 +66,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
       postTitle: title,
       postDate: DateTime.now(),
       postAuthor: House(
-          id: '1',
+          id: 'bQQXe4pRe3IRJBU4GCVZ',
           name: 'Logged in user',
           address: 'test',
           description:
@@ -84,7 +84,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
         eventDescription: description,
         postDate: selectedDate,
         postAuthor: House(
-            id: '1',
+            id: 'bQQXe4pRe3IRJBU4GCVZ',
             name: 'Logged in user',
             address: 'test',
             description:
