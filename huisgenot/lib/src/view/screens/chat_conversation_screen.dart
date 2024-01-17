@@ -4,12 +4,12 @@ import 'package:huisgenot/src/controller/message_controller.dart';
 import 'package:huisgenot/src/model/chat_messages.dart';
 
 class ChatConversationScreen extends StatefulWidget {
-  final String userName; // Vervang door daadwerkelijke gebruikersgegevens
+  final String chatId; // Vervang door daadwerkelijke gebruikersgegevens
   final String userProfileImage; // Vervang door daadwerkelijke gebruikersgegevens
 
   const ChatConversationScreen({
     Key? key,
-    required this.userName,
+    required this.chatId,
     required this.userProfileImage,
   }) : super(key: key);
 
@@ -40,7 +40,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
             ),
             SizedBox(width: 35.0),
             Text(
-              widget.userName,
+              widget.chatId,
               style: TextStyle(color: Colors.white),
             ),
           ],
@@ -54,7 +54,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
           // Chat-inhoud komt hier (vervang dit deel door je werkelijke chat-inhoud)
           Expanded(
             child: StreamBuilder<List<ChatMessages>>(
-              stream: _messageController.getChatMessages(widget.userName, 20), // Vervang door de daadwerkelijke conversatie-ID
+              stream: _messageController.getChatMessages(widget.chatId, 20), // Vervang door de daadwerkelijke conversatie-ID
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator(); // Toon een laadindicator tijdens het ophalen van gegevens
@@ -134,20 +134,24 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
         padding: const EdgeInsets.all(12.0),
         constraints: BoxConstraints(maxWidth: maxWidth),
         decoration: BoxDecoration(
-          color: message.userId == 'senderUserId' ? Color(0xFF426421) : Colors.grey,
+          color: message.userId == 'senderUserId' ? Color(0xFF426421) : Color(0xFF6E7467),
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (message.userId != 'senderUserId')
+              Text(
+                message.userId,
+                style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold ,color: Colors.white),
+              ),
+            Text(
+              message.content,
+              style: const TextStyle(fontSize: 16.0, color: Colors.white),
+            ),
             Text(
               _formatTimestamp(message.timestamp),
               style: const TextStyle(fontSize: 12.0, color: Colors.white70),
-            ),
-            SizedBox(height: 4.0),
-            Text(
-              message.content,
-              style: const TextStyle(color: Colors.white),
             ),
           ],
         ),
@@ -155,11 +159,10 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
     );
   }
 
-
   String _formatTimestamp(String timestamp) {
     // Gebruik de intl-bibliotheek om het tijdstempel in het gewenste formaat weer te geven
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(int.parse(timestamp));
-    String formattedTime = DateFormat.Hms().format(dateTime); // Uur:minuut:seconde-formaat
+    String formattedTime = DateFormat.Hm().format(dateTime); // Uur:minuut:seconde-formaat
     return formattedTime;
   }
 
@@ -170,7 +173,7 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
 
       ChatMessages chatMessage = ChatMessages(
         userId: senderUserId,
-        chatId: widget.userName,
+        chatId: widget.chatId,
         timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
         content: messageContent,
       );

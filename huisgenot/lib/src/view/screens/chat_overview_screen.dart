@@ -140,7 +140,7 @@ class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
                                         MaterialPageRoute(
                                           builder: (context) =>
                                            ChatConversationScreen(
-                                            userName:
+                                            chatId:
                                             '$houseName1-$houseName2',
                                             userProfileImage:
                                             'assets/images/profile_img.png', // Replace with actual user data
