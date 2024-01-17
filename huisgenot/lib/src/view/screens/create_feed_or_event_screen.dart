@@ -20,43 +20,23 @@ class CreateFeedOrEventScreen extends StatefulWidget {
 
 class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   String selectedOption = 'Feed'; // Default selected option
-  late String imageUrl; // To store the selected image path
+  String imageUrl = "https://example.com/image.jpg"; // To store the selected image path
   DateTime selectedDate = DateTime.now(); // To store the selected date
   FeedController feedController = FeedController();
   EventController eventController = EventController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   final picker = ImagePicker();
+  String imagePath = "";
+  String fileName = "";
+  String storagePath = "";
+  var pickedFile;
+
 
   // Function to handle image picking
-  Future<void> _uploadImage() async {
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+  Future<void> _selectImage() async {
+    pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedFile != null) {
-      // Upload the image to Firebase Storage
-      String imagePath = pickedFile.path;
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      String storagePath = 'images/$fileName.jpg';
-
-      // Upload image
-      // Replace 'your-firebase-bucket' with your Firebase Storage bucket name
-      Reference storageReference = FirebaseStorage.instance.ref().child(storagePath);
-      UploadTask uploadTask = storageReference.putFile(File(imagePath));
-
-      // Get the download URL
-      String downloadUrl = await (await uploadTask).ref.getDownloadURL();
-
-      setState(() {
-        imageUrl = downloadUrl;
-      });
-
-      // Store image reference in Firestore
-      // You can replace 'images' with your desired collection name
-      await FirebaseFirestore.instance.collection('images').add({
-        'imageUrl': downloadUrl,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-    }
   }
 
   // Function to show date picker
@@ -77,18 +57,34 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     }
   }
 
-  Future<void> _handleUpload() async {
+  Future<void> _handlePictureUpload() async {
+    // Upload the image to Firebase Storage
+    imagePath = pickedFile.path;
+    fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    storagePath = 'images/$fileName.jpg';
+    // Upload image
+    // Replace 'your-firebase-bucket' with your Firebase Storage bucket name
+    Reference storageReference = FirebaseStorage.instance.ref().child(storagePath);
+    UploadTask uploadTask = storageReference.putFile(File(imagePath));
 
-    // Get data from UI
+    String downloadUrl = await (await uploadTask).ref.getDownloadURL();
+    imageUrl = downloadUrl;
+  }
+
+  Future<void> _handleUpload() async {
     // Get data from UI
     String title = titleController.text;
     String description = descriptionController.text;
     // Add any other necessary fields
     // Add any other necessary fields
+    if (pickedFile != null) {
+      _handlePictureUpload();
+    }
+
     if (selectedOption == 'Feed') {
     FeedItem newFeed = FeedItem(
       id: '1', //TODO check how to deal with ID
-      imageUrl: 'https://example.com/image.jpg',
+      imageUrl: imageUrl,
       postTitle: title,
       postDate: DateTime.now(),
       postAuthor: House(
@@ -106,7 +102,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
       String lastId = await eventController.getLastEventId();
       EventItem newEvent = EventItem(
         eventId: lastId, //TODO check how to deal with ID
-        imageUrl: 'https://example.com/image.jpg',
+        imageUrl: imageUrl,
         eventTitle: title,
         eventDescription: description,
         postDate: selectedDate,
@@ -117,6 +113,8 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
 
       eventController.uploadEvent(newEvent);
     }
+    // Store image reference in Firestore
+    // You can replace 'images' with your desired collection name
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -230,7 +228,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
               child: Material(
                 color: Colors.transparent,
                 child: InkWell(
-                  onTap: _uploadImage,
+                  onTap: _selectImage,
                   borderRadius: BorderRadius.circular(20.0),
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
