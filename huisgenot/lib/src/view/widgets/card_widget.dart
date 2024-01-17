@@ -12,16 +12,20 @@ class CardWidget extends StatelessWidget {
     final ColorScheme colorScheme = theme.colorScheme;
 
     return Card(
-      // ... existing code ...
+      margin: const EdgeInsets.fromLTRB(10, 0, 12, 12),
+      color:
+          Colors.transparent, // Set the card's background color to transparent
+      elevation: 0, // Add elevation for a soft shadow
+      shadowColor:
+          Colors.black.withOpacity(0.2), // Set shadow color with opacity
       child: Stack(
         children: [
           Column(
             children: [
               Container(
-                // ... existing code for box decoration ...
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
+                  child: Image.asset(
                     feedItem.imageUrl,
                     height: 200,
                     width: double.infinity,
@@ -30,30 +34,30 @@ class CardWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Author: ${feedItem.postAuthor.name}'
+                      'Auteur: ${feedItem.postAuthor.name}'
                           .toUpperCase(), // Example of using FeedItem data
                       style: TextStyle(
                           fontSize: 14,
                           color: colorScheme.primary,
                           fontWeight: FontWeight.w500),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       feedItem.postTitle,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
-                      '${feedItem.postDate.day} ${feedItem.postDate.month} - ${feedItem.postDate.hour}:${feedItem.postDate.minute}',
+                      '${feedItem.postDate.day}/${feedItem.postDate.month}/${feedItem.postDate.year} @ ${feedItem.postDate.hour}:${feedItem.postDate.minute}',
                       style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ],
@@ -61,7 +65,25 @@ class CardWidget extends StatelessWidget {
               ),
             ],
           ),
-          // ... existing Positioned widget ...
+          Positioned(
+            bottom: 16,
+            right: 0,
+            child: RawMaterialButton(
+              onPressed: () {
+                // Handle button tap
+              },
+              shape: CircleBorder(),
+              elevation: 0,
+              fillColor: colorScheme.primary,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Icon(
+                  Icons.send,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

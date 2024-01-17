@@ -18,6 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final HouseController _houseController = HouseController();
   House? _selectedHouse;
 
+  LoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: TextField(
                 controller: _firstNameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Voornaam',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                 ),
               ),
             ),
@@ -63,9 +65,9 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               child: TextField(
                 controller: _lastNameController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Achternaam',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
                 ),
               ),
             ),
@@ -170,8 +172,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: const Text(
+                    constSnackBar(
+                      content:  Text(
                         'Alle velden zijn verplicht',
                         style: TextStyle(
                           fontSize: 16,
@@ -179,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           color: Colors.white,
                         ),
                       ),
-                      duration: const Duration(seconds: 5),
+                      duration:  Duration(seconds: 5),
                       backgroundColor: Colors.red,
                     ),
                   );

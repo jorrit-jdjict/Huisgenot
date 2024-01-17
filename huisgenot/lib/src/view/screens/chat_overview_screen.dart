@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:huisgenot/src/controller/house_controller.dart';
 import 'package:huisgenot/src/controller/user_controller.dart';
 import 'package:huisgenot/src/model/chat_model.dart';
+
 import 'package:huisgenot/src/view/screens/chat_conversation_screen.dart';
 
 import '../../controller/chat_controller.dart';
 import '../../model/house_model.dart';
 import '../../model/user_model.dart';
+import 'house_map_screen.dart';
 
 class ChatOverviewScreen extends StatefulWidget {
   const ChatOverviewScreen({
@@ -139,9 +141,9 @@ class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                          const ChatConversationScreen(
-                                            userName:
-                                            'User Name',
+                                           ChatConversationScreen(
+                                            chatId:
+                                            '$houseName1-$houseName2',
                                             userProfileImage:
                                             'assets/images/profile_img.png', // Replace with actual user data
                                           ),
@@ -172,6 +174,21 @@ class _ChatOverviewScreenState extends State<ChatOverviewScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Navigate to the CreateFeedScreen when FloatingActionButton is pressed
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HouseMapScreen(title: 'test',),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+        backgroundColor:Color(0xFFA1C47E),
+        shape: CircleBorder(),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

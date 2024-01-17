@@ -5,12 +5,16 @@ class House {
   final String name;
   final String address;
   final String description;
+  final double lat;
+  final double lng;
 
   House({
     required this.id,
     required this.name,
     required this.address,
     required this.description,
+    required this.lat,
+    required this.lng
   });
 
   factory House.fromMap(Map<String, dynamic> map) {
@@ -18,7 +22,10 @@ class House {
         id: map['id'],
         name: map['name'],
         address: map['address'],
-        description: map['description']
+        description: map['description'],
+        lat: map['lat'] ?? 0.0,
+        lng: map['lng'] ?? 0.0
+
     );
   }
 
@@ -28,6 +35,8 @@ class House {
       'name': name,
       'address': address,
       'description': description,
+      'lat': lat,
+      'lng': lng,
     };
   }
 
@@ -36,12 +45,16 @@ class House {
     String name = documentSnapshot.get('name');
     String address = documentSnapshot.get('address');
     String description = documentSnapshot.get('description');
+    double lat = documentSnapshot.get('lat');
+    double lng = documentSnapshot.get('lng');
 
     return House(
         id: id,
         name: name,
         address: address,
-        description: description
+        description: description,
+        lat: lat,
+        lng: lng
     );
   }
 }
