@@ -4,6 +4,8 @@ import 'package:huisgenot/src/controller/user_controller.dart';
 import 'package:huisgenot/src/model/house_model.dart';
 import 'package:huisgenot/src/model/user_model.dart';
 
+import '../widgets/profile_widget.dart';
+
 class HouseScreen extends StatelessWidget {
   final UserController _userController = UserController();
   final HouseController _houseController = HouseController();
@@ -161,44 +163,5 @@ class HouseScreen extends StatelessWidget {
     );
   }
 
-  Widget buildHousemates(List<User> housemates) {
-    return Column(
-      children: [
-        for (User housemate in housemates)
-          _buildHousemate(
-              '${housemate.firstName} ${housemate.lastName}', housemate.bio),
-      ],
-    );
-  }
 
-  Widget _buildHousemate(String name, String bio) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Row(
-        children: [
-          const CircleAvatar(
-            radius: 25,
-            backgroundColor: Color.fromARGB(255, 161, 196, 126),
-          ),
-          const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
-              ),
-              Text(
-                bio,
-                style: TextStyle(color: Color.fromARGB(255, 161, 196, 126)),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
 }

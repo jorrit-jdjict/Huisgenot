@@ -60,18 +60,18 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     // Add any other necessary fields
     // Add any other necessary fields
     if (selectedOption == 'Feed') {
-      FeedItem newFeed = FeedItem(
-        id: '1', //TODO check how to deal with ID
-        imageUrl: 'https://example.com/image.jpg',
-        postTitle: title,
-        postDate: DateTime.now(),
-        postAuthor: House(
-            id: '1',
-            name: 'Logged in user',
-            address: 'test',
-            description:
-                'bruuh'), //TODO: change this to the logged in user house id
-      );
+    FeedItem newFeed = FeedItem(
+      id: '1', //TODO check how to deal with ID
+      imageUrl: 'https://example.com/image.jpg',
+      postTitle: title,
+      postDate: DateTime.now(),
+      postAuthor: House(
+          id: '1',
+          name: 'Logged in user',
+          address: 'test',
+          description:
+              'bruuh', lat:0, lng:0), //TODO: change this to the logged in user house id
+    );
 
       // Upload feed only if the selected option is 'Feed'
 
@@ -88,7 +88,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             name: 'Logged in user',
             address: 'test',
             description:
-                'bruuh'), //TODO: change this to the logged in user house id
+            'bruuh', lat:0, lng:0), //TODO: change this to the logged in user house id
       );
 
       // Upload feed only if the selected option is 'Feed'
