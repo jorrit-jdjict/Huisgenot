@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:huisgenot/src/controller/message_controller.dart';
 import 'package:huisgenot/src/model/chat_messages.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatConversationScreen extends StatefulWidget {
   final String chatId; // Vervang door daadwerkelijke gebruikersgegevens
@@ -20,6 +21,17 @@ class ChatConversationScreen extends StatefulWidget {
 class _ChatConversationScreenState extends State<ChatConversationScreen> {
   final TextEditingController _textController = TextEditingController();
   final MessageController _messageController = MessageController();
+  late SharedPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSharedPreferences();
+  }
+
+  Future<void> _initializeSharedPreferences() async {
+    _prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,19 +140,19 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
     double maxWidth = MediaQuery.of(context).size.width * 0.9;
 
     return Align(
-      alignment: message.userId == 'senderUserId' ? Alignment.topRight : Alignment.topLeft,
+      alignment: message.userId == _prefs.getString('first_name') ? Alignment.topRight : Alignment.topLeft,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
         padding: const EdgeInsets.all(12.0),
         constraints: BoxConstraints(maxWidth: maxWidth),
         decoration: BoxDecoration(
-          color: message.userId == 'senderUserId' ? Color(0xFF426421) : Color(0xFF6E7467),
+          color: message.userId == _prefs.getString('first_name')  ? Color(0xFF426421) : Color(0xFF6E7467),
           borderRadius: BorderRadius.circular(8.0),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (message.userId != 'senderUserId')
+            if (message.userId != _prefs.getString('first_name') )
               Text(
                 message.userId,
                 style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold ,color: Colors.white),
@@ -169,10 +181,10 @@ class _ChatConversationScreenState extends State<ChatConversationScreen> {
   void _sendMessage() {
     String messageContent = _textController.text.trim();
     if (messageContent.isNotEmpty) {
-      String senderUserId = 'senderUserId'; // Vervang door de daadwerkelijke gebruikers-ID's
+      String? senderUserId = _prefs.getString('first_name'); // Vervang door de daadwerkelijke gebruikers-ID's
 
       ChatMessages chatMessage = ChatMessages(
-        userId: senderUserId,
+        userId: senderUserId!,
         chatId: widget.chatId,
         timestamp: DateTime.now().millisecondsSinceEpoch.toString(),
         content: messageContent,

@@ -1,5 +1,6 @@
 // user_controller.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/user_model.dart';
 
 class UserController {
@@ -34,6 +35,9 @@ class UserController {
   }
 
   Future<void> addUserToFirebase(User user) async {
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    await _prefs.setString('userId', user.id);
+    await _prefs.setString('first_name', user.first_name);
     try {
       await _firestore.collection(collection).add(user.toJson());
       print(

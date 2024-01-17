@@ -17,6 +17,7 @@ dependencies:
   google_maps_flutter: ^2.5.3
   firebase_database: ^10.4.0
   cloud_firestore: ^4.14.0
+  shared_preferences: ^2.0.9
   intl: ^0.19.0
   flutter:
     sdk: flutter
