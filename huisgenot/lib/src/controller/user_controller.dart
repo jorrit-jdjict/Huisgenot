@@ -39,9 +39,13 @@ class UserController {
     await _prefs.setString('userId', user.id);
     await _prefs.setString('first_name', user.first_name);
     try {
-      await _firestore.collection(collection).add(user.toJson());
+      DocumentReference documentReference =
+          await _firestore.collection(collection).add(user.toJson());
+      String documentId = documentReference.id;
+      await _prefs.setString('userDocumentId', documentId);
+
       print(
-          'Gebruiker toegevoegd aan Firebase: ${user.first_name} ${user.last_name}');
+          'Gebruiker toegevoegd aan Firebase: ${user.first_name} ${user.last_name} ${documentId}');
     } catch (e) {
       print('Fout bij toevoegen van gebruiker aan Firebase: $e');
     }
