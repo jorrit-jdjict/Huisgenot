@@ -47,91 +47,94 @@ class HouseScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: FutureBuilder<User?>(
-        future: _userController.getUserById(userId),
-        builder: (BuildContext context, AsyncSnapshot<User?> userSnapshot) {
-          if (userSnapshot.connectionState == ConnectionState.done) {
-            if (userSnapshot.hasData) {
-              User user = userSnapshot.data!;
-              final String houseId = user.house_id;
+      body: SingleChildScrollView(
+        child: FutureBuilder<User?>(
+          future: _userController.getUserById(userId),
+          builder: (BuildContext context, AsyncSnapshot<User?> userSnapshot) {
+            if (userSnapshot.connectionState == ConnectionState.done) {
+              if (userSnapshot.hasData) {
+                User user = userSnapshot.data!;
+                final String houseId = user.house_id;
 
-              return Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  children: [
-                    const CircleAvatar(
-                      radius: 60,
-                      backgroundImage: AssetImage(
-                        'assets/images/profile_img.png',
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    children: [
+                      const CircleAvatar(
+                        radius: 60,
+                        backgroundImage: AssetImage(
+                          'assets/images/profile_img.png',
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    FutureBuilder<House?>(
-                      future: _houseController.getHouseById(houseId),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<House?> houseSnapshot) {
-                        if (houseSnapshot.connectionState ==
-                            ConnectionState.done) {
-                          if (houseSnapshot.hasData) {
-                            House house = houseSnapshot.data!;
+                      const SizedBox(height: 10),
+                      FutureBuilder<House?>(
+                        future: _houseController.getHouseById(houseId),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<House?> houseSnapshot) {
+                          if (houseSnapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (houseSnapshot.hasData) {
+                              House house = houseSnapshot.data!;
 
-                            return buildHouseInfo(house);
-                          } else if (houseSnapshot.hasError) {
-                            return Center(
-                              child: Text('Error: ${houseSnapshot.error}'),
-                            );
+                              return buildHouseInfo(house);
+                            } else if (houseSnapshot.hasError) {
+                              return Center(
+                                child: Text('Error: ${houseSnapshot.error}'),
+                              );
+                            }
                           }
-                        }
 
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 50),
-                    const Text(
-                      'Huisgenoten',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
                       ),
-                    ),
-                    FutureBuilder<List<User>>(
-                      future: _userController.getUsersInHouse(houseId),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<List<User>> housematesSnapshot) {
-                        if (housematesSnapshot.connectionState ==
-                            ConnectionState.done) {
-                          if (housematesSnapshot.hasData) {
-                            List<User> housemates = housematesSnapshot.data!;
+                      const SizedBox(height: 50),
+                      const Text(
+                        'Huisgenoten',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                      FutureBuilder<List<User>>(
+                        future: _userController.getUsersInHouse(houseId),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<User>> housematesSnapshot) {
+                          if (housematesSnapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (housematesSnapshot.hasData) {
+                              List<User> housemates = housematesSnapshot.data!;
 
-                            return buildHousemates(housemates);
-                          } else if (housematesSnapshot.hasError) {
-                            return Center(
-                              child: Text('Error: ${housematesSnapshot.error}'),
-                            );
+                              return buildHousemates(housemates);
+                            } else if (housematesSnapshot.hasError) {
+                              return Center(
+                                child:
+                                    Text('Error: ${housematesSnapshot.error}'),
+                              );
+                            }
                           }
-                        }
 
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              );
-            } else if (userSnapshot.hasError) {
-              return Center(
-                child: Text('Error: ${userSnapshot.error}'),
-              );
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              } else if (userSnapshot.hasError) {
+                return Center(
+                  child: Text('Error: ${userSnapshot.error}'),
+                );
+              }
             }
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          },
+        ),
       ),
     );
   }
@@ -162,6 +165,4 @@ class HouseScreen extends StatelessWidget {
       ],
     );
   }
-
-
 }
