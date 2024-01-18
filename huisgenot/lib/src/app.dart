@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:huisgenot/src/view/screens/login_screen.dart';
 import 'package:huisgenot/src/view/screens/startpagina_screen.dart';
-import 'view/screens/feed_screen.dart';
 
 /// The Widget that configures your application.
 class HuisGenot extends StatelessWidget {

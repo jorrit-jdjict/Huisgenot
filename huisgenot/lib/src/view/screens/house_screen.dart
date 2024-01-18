@@ -37,20 +37,20 @@ class HouseScreen extends StatelessWidget {
             },
           ),
         ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.all(8.0),
-            child: IconButton(
-              icon: const Icon(
-                Icons.edit,
-                color: Colors.white,
-              ),
-              onPressed: () {
-                // Handle the edit button click
-              },
-            ),
-          ),
-        ],
+        // actions: [
+        //   Container(
+        //     margin: const EdgeInsets.all(8.0),
+        //     child: IconButton(
+        //       icon: const Icon(
+        //         Icons.edit,
+        //         color: Colors.white,
+        //       ),
+        //       onPressed: () {
+        //         // Handle the edit button click
+        //       },
+        //     ),
+        //   ),
+        // ],
       ),
       body: SingleChildScrollView(
         child: FutureBuilder<String?>(
