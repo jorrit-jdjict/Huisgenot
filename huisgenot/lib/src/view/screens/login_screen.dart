@@ -16,8 +16,19 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _bioController = TextEditingController();
   final UserController _userController = UserController();
   final HouseController _houseController = HouseController();
-  House? _selectedHouse;
+  int? _selectedHouseIndex;
+  late List<House> allHouses = [];
 
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the list in the initState method
+    _houseController.getHouses().listen((List<House> houses) {
+      setState(() {
+        allHouses = houses;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,165 +49,153 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: TextField(
-                controller: _firstNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Voornaam',
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: TextField(
-                controller: _lastNameController,
-                decoration: const InputDecoration(
-                  labelText: 'Achternaam',
-                  contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: TextField(
-                controller: _bioController,
-                decoration: InputDecoration(
-                  labelText: 'Vertel wat over jezelf',
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-                ),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 20),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10.0),
-              ),
-              child: StreamBuilder<List<House>>(
-                stream: _houseController.getHouses(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<House>> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.active) {
-                    if (snapshot.hasData) {
-                      List<House> allHouses = snapshot.data!;
-                      return Container(
-                        width: double.infinity,
-                        child: DropdownButton<House>(
-                          isExpanded: true,
-                          iconEnabledColor: Color.fromARGB(255, 46, 72, 20),
-                          items: allHouses.map((House house) {
-                            return DropdownMenuItem<House>(
-                              value: house,
-                              child: Text(
-                                house.name,
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 161, 196, 126),
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                          onChanged: (House? selectedHouse) {
-                            setState(() {
-                              _selectedHouse = selectedHouse;
-                            });
-                          },
-                          hint: Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: const Text(
-                              'Selecteer een huis',
-                              style: TextStyle(
-                                color: Color.fromARGB(255, 46, 72, 20),
-                              ),
-                            ),
-                          ),
-                        ),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text('Error: ${snapshot.error}'),
-                      );
-                    }
-                  }
-
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () async {
-                String first_name = _firstNameController.text;
-                String last_name = _lastNameController.text;
-                String bio = _bioController.text;
-
-                if (first_name.isNotEmpty &&
-                    last_name.isNotEmpty &&
-                    bio.isNotEmpty &&
-                    _selectedHouse != null) {
-                  User user = User(
-                    id: '',
-                    first_name: first_name,
-                    last_name: last_name,
-                    bio: bio,
-                    house_id: _selectedHouse!.id,
-                  );
-
-                  await _userController.addUserToFirebase(user);
-
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FeedScreen(),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _buildTextField(_firstNameController, 'Voornaam'),
+                const SizedBox(height: 20),
+                _buildTextField(_lastNameController, 'Achternaam'),
+                const SizedBox(height: 20),
+                _buildTextField(_bioController, 'Vertel wat over jezelf'),
+                _buildHouseDropdown(),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () => _createProfile(context),
+                  child: const Text(
+                    'Profiel aanmaken',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
                     ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content:  Text(
-                        'Alle velden zijn verplicht',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      duration:  Duration(seconds: 5),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
-              child: const Text(
-                'Profiel aanmaken',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String labelText) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: labelText,
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHouseDropdown() {
+    return Container(
+      margin: const EdgeInsets.only(top: 20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: _buildHouseDropdownButton(),
+    );
+  }
+
+  Widget _buildHouseDropdownButton() {
+    if (allHouses.isEmpty) {
+      return Center(child: CircularProgressIndicator());
+    }
+
+    return Container(
+      padding: EdgeInsets.only(left: 16.0), // Add padding to the left
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: DropdownButtonFormField<int>(
+        isExpanded: true,
+        iconEnabledColor: Color.fromARGB(255, 46, 72, 20),
+        items: allHouses.asMap().entries.map((entry) {
+          int index = entry.key;
+          House house = entry.value;
+          return DropdownMenuItem<int>(
+            value: index,
+            child: Text(
+              house.name,
+              style: TextStyle(
+                color: _selectedHouseIndex == index
+                    ? Color.fromARGB(
+                        255, 46, 72, 20) // Change the selected text color
+                    : Color.fromARGB(255, 161, 196, 126),
+              ),
+            ),
+          );
+        }).toList(),
+        onChanged: (int? selectedIndex) {
+          setState(() {
+            _selectedHouseIndex = selectedIndex;
+          });
+        },
+        value: _selectedHouseIndex,
+        decoration: InputDecoration(
+          hintText: 'Selecteer een huis',
+          hintStyle: TextStyle(
+            color: Color.fromARGB(255, 46, 72, 20),
+          ),
+          border: InputBorder.none,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _createProfile(BuildContext context) async {
+    String first_name = _firstNameController.text;
+    String last_name = _lastNameController.text;
+    String bio = _bioController.text;
+
+    if (first_name.isNotEmpty &&
+        last_name.isNotEmpty &&
+        bio.isNotEmpty &&
+        _selectedHouseIndex != null) {
+      House selectedHouse = allHouses[_selectedHouseIndex!];
+      User user = User(
+        id: '',
+        first_name: first_name,
+        last_name: last_name,
+        bio: bio,
+        house_id: selectedHouse.id,
+      );
+
+      await _userController.addUserToFirebase(user);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => FeedScreen(),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Alle velden zijn verplicht',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          duration: Duration(seconds: 5),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
