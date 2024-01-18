@@ -1,17 +1,16 @@
+// feed_screen.dart
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-// Widgets
 import '../widgets/card_widget.dart';
 import '../widgets/ad_widget.dart';
-// Models
 import 'package:huisgenot/src/model/feed_model.dart';
-// Views
 import 'package:huisgenot/src/view/screens/chat_overview_screen.dart';
 import 'package:huisgenot/src/view/screens/house_screen.dart';
 import 'package:huisgenot/src/view/screens/create_feed_or_event_screen.dart';
-// Controllers
 import 'package:huisgenot/src/controller/feed_controller.dart';
+import '../widgets/bottom_navigation.dart';
 
 class FeedScreen extends StatelessWidget {
   final FeedController _feedController = FeedController();
@@ -31,6 +30,7 @@ class FeedScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: colorScheme.background,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         scrolledUnderElevation: 0.0,
         backgroundColor: Colors.transparent,
         flexibleSpace: Container(
@@ -40,9 +40,9 @@ class FeedScreen extends StatelessWidget {
               end: Alignment.bottomCenter,
               colors: [
                 Colors.black,
-                Colors.transparent, // Add your desired color here
+                Colors.transparent,
               ],
-              stops: [0, 1], // Adjust the stops as needed
+              stops: [0, 1],
             ),
           ),
         ),
@@ -51,8 +51,8 @@ class FeedScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         actions: [
-          GestureDetector(
-            onTap: () {
+          IconButton(
+            onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -60,56 +60,12 @@ class FeedScreen extends StatelessWidget {
                 ),
               );
             },
-            child: Container(
-              margin: const EdgeInsets.all(8.0),
-              width: 48.0, // Set the same size for the icon
-              height: 48.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: colorScheme.primary,
-              ),
-              child: const Icon(
-                Icons.send,
-                color: Colors.white,
-              ),
-            ),
+            icon: Icon(Icons.send, color: Colors.white),
           ),
         ],
-        leading: GestureDetector(
-          onTap: () {
-            // Navigate to the CreateFeedScreen when FloatingActionButton is pressed
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HouseScreen(),
-              ),
-            );
-          },
-          child: Container(
-            margin: const EdgeInsets.all(8.0),
-            width: 48.0, // Set the same size for the image
-            height: 48.0,
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: AssetImage('assets/images/profile_img.png'),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-        ),
       ),
       body: Column(
         children: [
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.only(top: 8),
-            child: const Row(
-              children: [
-                Spacer(),
-              ],
-            ),
-          ),
           Expanded(
             child: StreamBuilder<List<FeedItem>>(
               stream: _feedController.getFeedItems(),
@@ -146,21 +102,37 @@ class FeedScreen extends StatelessWidget {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Navigate to the CreateFeedScreen when FloatingActionButton is pressed
+      bottomNavigationBar: CustomBottomNavigation(
+        onHomePressed: () {},
+        onAddPressed: () {
+          // Image knop gaat naar HouseScreen
           Navigator.push(
             context,
-            MaterialPageRoute(
-              builder: (context) => const CreateFeedOrEventScreen(),
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  CreateFeedOrEventScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
             ),
           );
         },
-        backgroundColor: colorScheme.primary,
-        shape: const CircleBorder(),
-        child: const Icon(Icons.add),
+        onProfilePressed: () {
+          // Image knop gaat naar HouseScreen
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  HouseScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            ),
+          );
+        },
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
