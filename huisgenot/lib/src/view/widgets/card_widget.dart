@@ -37,7 +37,7 @@ class CardWidget extends StatelessWidget {
             String userHouseId = "";
             for (var user in snapshot1.data!) {
               if (user.id == userId) {
-                userHouseId = user.house_id;
+                userHouseId = user.houseId;
                 break;
               }
             }
