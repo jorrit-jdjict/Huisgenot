@@ -37,12 +37,30 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   }
 
   // Function to show date picker
+// Function to show date picker
   Future<void> _selectDate() async {
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(DateTime.now().year + 1),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Color.fromARGB(255, 161, 196, 126), // header background color
+              onPrimary: Color.fromARGB(255, 52, 78, 26), // header text color
+              onSurface: Color.fromARGB(255, 52, 78, 26), // body text color
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Color.fromARGB(255, 52, 78, 26), // button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (pickedDate != null && pickedDate != selectedDate) {
@@ -60,18 +78,19 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     // Add any other necessary fields
     // Add any other necessary fields
     if (selectedOption == 'Feed') {
-    FeedItem newFeed = FeedItem(
-      id: '1', //TODO check how to deal with ID
-      imageUrl: 'https://example.com/image.jpg',
-      postTitle: title,
-      postDate: DateTime.now(),
-      postAuthor: House(
-          id: 'bQQXe4pRe3IRJBU4GCVZ',
-          name: 'Logged in user',
-          address: 'test',
-          description:
-              'bruuh', lat:0, lng:0), //TODO: change this to the logged in user house id
-    );
+      FeedItem newFeed = FeedItem(
+        id: '1', //TODO check how to deal with ID
+        imageUrl: 'https://example.com/image.jpg',
+        postTitle: title,
+        postDate: DateTime.now(),
+        postAuthor: House(
+            id: 'bQQXe4pRe3IRJBU4GCVZ',
+            name: 'Logged in user',
+            address: 'test',
+            description: 'bruuh',
+            lat: 0,
+            lng: 0), //TODO: change this to the logged in user house id
+      );
 
       // Upload feed only if the selected option is 'Feed'
 
@@ -87,8 +106,9 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             id: 'bQQXe4pRe3IRJBU4GCVZ',
             name: 'Logged in user',
             address: 'test',
-            description:
-            'bruuh', lat:0, lng:0), //TODO: change this to the logged in user house id
+            description: 'bruuh',
+            lat: 0,
+            lng: 0), //TODO: change this to the logged in user house id
       );
 
       // Upload feed only if the selected option is 'Feed'
@@ -108,18 +128,42 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: const Text('Bericht posten'),
-        // Add any additional styling you want for the app bar
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              stops: [0, 1],
+            ),
+          ),
+        ),
+        title: const Text('Bericht/evenement plaatsen',
+            style: TextStyle(color: Colors.white)),
+        leading: Container(
+          margin: const EdgeInsets.all(8.0), // Add margin here
+          child: IconButton(
+            icon: const Icon(Icons.chevron_left, color: Color(0xFFF7F7F7)),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Wat wil je posten?:',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Wat wil je posten?:',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
             Row(
               children: [
                 Radio(
@@ -131,7 +175,9 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                     });
                   },
                 ),
-                const Text('Bericht'),
+                const Text('Bericht',
+                    style:
+                        TextStyle(color: Color.fromARGB(255, 161, 196, 126))),
                 Radio(
                   value: 'Event',
                   groupValue: selectedOption,
@@ -141,7 +187,9 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
                     });
                   },
                 ),
-                const Text('Evenement'),
+                const Text('Evenement',
+                    style:
+                        TextStyle(color: Color.fromARGB(255, 161, 196, 126))),
               ],
             ),
             Visibility(
@@ -149,48 +197,57 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Datum:',
-                    style: Theme.of(context).textTheme.titleMedium,
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Text('Datum:',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold)),
                   ),
                   GestureDetector(
                     onTap: _selectDate,
                     child: Container(
                       padding: const EdgeInsets.all(16.0),
                       decoration: BoxDecoration(
-                        color: Colors.green, // Set the background color
-                        border: Border.all(color: Colors.green),
+                        color: Color.fromARGB(
+                            255, 161, 196, 126), // Set the background color
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: Text(
-                        selectedDate != null
-                            ? selectedDate!.toLocal().toString().split(' ')[0]
-                            : 'Selecteer datum',
-                      ),
+                          selectedDate != null
+                              ? selectedDate!.toLocal().toString().split(' ')[0]
+                              : 'Selecteer datum',
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
                     ),
                   ),
-                  const SizedBox(height: 24.0),
                 ],
               ),
             ),
             const SizedBox(height: 24.0),
-            Text(
-              'Titel:',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Titel:',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
             TextField(
+              style: TextStyle(color: Color.fromARGB(255, 161, 196, 126)),
               controller: titleController,
               decoration: const InputDecoration(
                 hintText: 'Titel...',
               ),
             ),
             const SizedBox(height: 24.0),
-            Text(
-              'Omschrijving:',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
+            Text('Omschrijving:',
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold)),
             Expanded(
               child: TextField(
+                style: TextStyle(color: Color.fromARGB(255, 161, 196, 126)),
                 controller: descriptionController,
                 maxLines: null,
                 decoration: const InputDecoration(
@@ -202,7 +259,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.lightGreen,
+                color: const Color.fromARGB(255, 52, 78, 26),
                 borderRadius: BorderRadius.circular(20.0),
               ),
               child: Material(
@@ -231,7 +288,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
               child: TextButton(
                 onPressed: _handleUpload,
                 style: TextButton.styleFrom(
-                  backgroundColor: Colors.green,
+                  backgroundColor: Color.fromARGB(255, 161, 196, 126),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.0),
                   ),
