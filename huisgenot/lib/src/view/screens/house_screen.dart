@@ -28,6 +28,19 @@ class HouseScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              stops: [0, 1],
+            ),
+          ),
+        ),
         title: const Text('Profiel', style: TextStyle(color: Colors.white)),
         // actions: [
         //   Container(
