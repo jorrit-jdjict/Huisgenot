@@ -77,22 +77,18 @@ class CardWidget extends StatelessWidget {
 
                             return Card(
                               margin: const EdgeInsets.fromLTRB(10, 0, 12, 12),
-                              color:
-                              Colors.transparent,
-                              // Set the card's background color to transparent
+                              color: Colors.transparent,
                               elevation: 0,
-                              // Add elevation for a soft shadow
-                              shadowColor:
-                              Colors.black.withOpacity(0.2),
-                              // Set shadow color with opacity
+                              shadowColor: Colors.black.withOpacity(0.2),
                               child: Stack(
                                 children: [
                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
+                                    mainAxisAlignment: MainAxisAlignment.end, // Align text to the bottom
                                     children: [
                                       Container(
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(
-                                              10),
+                                          borderRadius: BorderRadius.circular(10),
                                           child: Image.asset(
                                             feedItem.imageUrl,
                                             height: 200,
@@ -104,14 +100,10 @@ class CardWidget extends StatelessWidget {
                                       Padding(
                                         padding: const EdgeInsets.all(16),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .start,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Auteur: ${feedItem.postAuthor
-                                                  .name}'
-                                                  .toUpperCase(),
-                                              // Example of using FeedItem data
+                                              'Auteur: ${feedItem.postAuthor.name}'.toUpperCase(),
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: colorScheme.primary,
@@ -128,16 +120,8 @@ class CardWidget extends StatelessWidget {
                                             ),
                                             const SizedBox(height: 8),
                                             Text(
-                                              '${feedItem.postDate
-                                                  .day}/${feedItem
-                                                  .postDate.month}/${feedItem
-                                                  .postDate
-                                                  .year} @ ${feedItem.postDate
-                                                  .hour}:${feedItem.postDate
-                                                  .minute}',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.grey),
+                                              '${feedItem.postDate.day}/${feedItem.postDate.month}/${feedItem.postDate.year} @ ${feedItem.postDate.hour}:${feedItem.postDate.minute}',
+                                              style: TextStyle(fontSize: 14, color: Colors.grey),
                                             ),
                                           ],
                                         ),
@@ -153,13 +137,11 @@ class CardWidget extends StatelessWidget {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) =>
-                                                ChatConversationScreen(
-                                                  chatId:
-                                                  chatId,
-                                                  userProfileImage:
-                                                  'assets/images/profile_img.png', // Replace with actual user data
-                                                ),
+                                            builder: (context) => ChatConversationScreen(
+                                              chatId: chatId,
+                                              userProfileImage:
+                                              'assets/images/profile_img.png', // Replace with actual user data
+                                            ),
                                           ),
                                         );
                                       },
@@ -178,6 +160,7 @@ class CardWidget extends StatelessWidget {
                                 ],
                               ),
                             );
+
                           } else if (snapshot3.hasError) {
                             inspect(snapshot3.error); // Inspect the error
                             return Text('Error: ${snapshot3.error}');
