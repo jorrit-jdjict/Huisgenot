@@ -3,6 +3,9 @@ import 'package:huisgenot/src/controller/house_controller.dart';
 import 'package:huisgenot/src/controller/user_controller.dart';
 import 'package:huisgenot/src/model/house_model.dart';
 import 'package:huisgenot/src/model/user_model.dart';
+import 'package:huisgenot/src/view/screens/create_feed_or_event_screen.dart';
+import 'package:huisgenot/src/view/screens/feed_screen.dart';
+import 'package:huisgenot/src/view/widgets/bottom_navigation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../widgets/profile_widget.dart';
@@ -23,20 +26,22 @@ class HouseScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profiel', style: TextStyle(color: Colors.white)),
-        leading: Container(
-          margin: const EdgeInsets.all(8.0),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 24.0,
-              color: Colors.white,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              stops: [0, 1],
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
         ),
+        title: const Text('Profiel', style: TextStyle(color: Colors.white)),
         // actions: [
         //   Container(
         //     margin: const EdgeInsets.all(8.0),
@@ -56,13 +61,15 @@ class HouseScreen extends StatelessWidget {
         child: FutureBuilder<String?>(
           // Haal de document-ID op uit SharedPreferences
           future: getDocumentId(),
-          builder: (BuildContext context, AsyncSnapshot<String?> documentIdSnapshot) {
+          builder: (BuildContext context,
+              AsyncSnapshot<String?> documentIdSnapshot) {
             if (documentIdSnapshot.connectionState == ConnectionState.done) {
               if (documentIdSnapshot.hasData) {
                 String documentId = documentIdSnapshot.data!;
                 return FutureBuilder<User?>(
                   future: _userController.getUserById(documentId),
-                  builder: (BuildContext context, AsyncSnapshot<User?> userSnapshot) {
+                  builder: (BuildContext context,
+                      AsyncSnapshot<User?> userSnapshot) {
                     if (userSnapshot.connectionState == ConnectionState.done) {
                       if (userSnapshot.hasData) {
                         User user = userSnapshot.data!;
@@ -90,7 +97,8 @@ class HouseScreen extends StatelessWidget {
                                       return buildHouseInfo(house);
                                     } else if (houseSnapshot.hasError) {
                                       return Center(
-                                        child: Text('Error: ${houseSnapshot.error}'),
+                                        child: Text(
+                                            'Error: ${houseSnapshot.error}'),
                                       );
                                     }
                                   }
@@ -110,18 +118,21 @@ class HouseScreen extends StatelessWidget {
                                 ),
                               ),
                               FutureBuilder<List<User>>(
-                                future: _userController.getUsersInHouse(houseId),
+                                future:
+                                    _userController.getUsersInHouse(houseId),
                                 builder: (BuildContext context,
-                                    AsyncSnapshot<List<User>> housematesSnapshot) {
+                                    AsyncSnapshot<List<User>>
+                                        housematesSnapshot) {
                                   if (housematesSnapshot.connectionState ==
                                       ConnectionState.done) {
                                     if (housematesSnapshot.hasData) {
-                                      List<User> housemates = housematesSnapshot.data!;
+                                      List<User> housemates =
+                                          housematesSnapshot.data!;
                                       return buildHousemates(housemates);
                                     } else if (housematesSnapshot.hasError) {
                                       return Center(
-                                        child:
-                                            Text('Error: ${housematesSnapshot.error}'),
+                                        child: Text(
+                                            'Error: ${housematesSnapshot.error}'),
                                       );
                                     }
                                   }
@@ -158,33 +169,64 @@ class HouseScreen extends StatelessWidget {
           },
         ),
       ),
+      bottomNavigationBar: CustomBottomNavigation(
+        onHomePressed: () {
+          // Home knop gaat naar FeedScreen
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  FeedScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            ),
+          );
+        },
+        onAddPressed: () {
+          // Image knop gaat naar HouseScreen
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  CreateFeedOrEventScreen(),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                return child;
+              },
+            ),
+          );
+        },
+        onProfilePressed: () {},
+      ),
     );
   }
+}
 
-  Widget buildHouseInfo(House house) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          house.name,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
+Widget buildHouseInfo(House house) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      Text(
+        house.name,
+        style: const TextStyle(
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
         ),
-        Text(
-          house.address,
-          style: const TextStyle(
-            fontSize: 16,
-            color: Color.fromARGB(255, 161, 196, 126),
-          ),
+      ),
+      Text(
+        house.address,
+        style: const TextStyle(
+          fontSize: 16,
+          color: Color.fromARGB(255, 161, 196, 126),
         ),
-        Text(
-          house.description,
-          style: TextStyle(fontSize: 16, color: Colors.white),
-        ),
-      ],
-    );
-  }
+      ),
+      Text(
+        house.description,
+        style: TextStyle(fontSize: 16, color: Colors.white),
+      ),
+    ],
+  );
 }
