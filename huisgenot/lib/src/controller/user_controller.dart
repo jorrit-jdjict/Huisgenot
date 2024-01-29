@@ -34,10 +34,11 @@ class UserController {
     }
   }
 
-  Future<void> addUserToFirebase(User user) async {
+  Future<void> addUserToFirebase(User user, id) async {
     SharedPreferences _prefs = await SharedPreferences.getInstance();
     await _prefs.setString('userId', user.id);
     await _prefs.setString('first_name', user.first_name);
+    await _prefs.setString('house_id', id);
     try {
       DocumentReference documentReference =
           await _firestore.collection(collection).add(user.toJson());

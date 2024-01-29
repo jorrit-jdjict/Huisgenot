@@ -118,7 +118,7 @@ class _HouseMapScreenState extends State<HouseMapScreen> {
               for (var user in snapshot1.data!) {
                 print(user.id);
                 if (user.id == userId) {
-                  userHouseId = user.houseId;
+                  userHouseId = user.house_id;
                   break;
                 }
               }

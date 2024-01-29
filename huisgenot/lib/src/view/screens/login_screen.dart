@@ -173,7 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
         house_id: selectedHouse.id,
       );
 
-      await _userController.addUserToFirebase(user);
+      await _userController.addUserToFirebase(user, selectedHouse.id);
 
       Navigator.pushReplacement(
         context,
