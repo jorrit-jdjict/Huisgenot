@@ -34,15 +34,25 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login', style: TextStyle(color: Colors.white)),
-        leading: Container(
-          margin: const EdgeInsets.all(8.0),
-          child: IconButton(
-            icon: const Icon(
-              Icons.arrow_back,
-              size: 24.0,
-              color: Colors.white,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black,
+                Colors.transparent,
+              ],
+              stops: [0, 1],
             ),
+          ),
+        ),
+        title: const Text('Profiel', style: TextStyle(color: Colors.white)),
+        leading: Container(
+          margin: const EdgeInsets.all(8.0), // Add margin here
+          child: IconButton(
+            icon: const Icon(Icons.chevron_left, color: Color(0xFFF7F7F7)),
             onPressed: () {
               Navigator.pop(context);
             },
