@@ -6,6 +6,7 @@ import 'package:huisgenot/src/model/event_model.dart';
 import 'package:huisgenot/src/model/house_model.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:huisgenot/src/view/screens/feed_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateFeedOrEventScreen extends StatefulWidget {
   const CreateFeedOrEventScreen({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
   EventController eventController = EventController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
+
 
   // Function to handle image picking
   Future<void> _pickImage() async {
@@ -70,13 +72,16 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
     }
   }
 
-  void _handleUpload() {
+  Future<void> _handleUpload() async {
     // Get data from UI
     // Get data from UI
     String title = titleController.text;
     String description = descriptionController.text;
     // Add any other necessary fields
     // Add any other necessary fields
+    SharedPreferences _prefs = await SharedPreferences.getInstance();
+    String? userId = _prefs.getString('first_name');
+
     if (selectedOption == 'Feed') {
       FeedItem newFeed = FeedItem(
         id: '1', //TODO check how to deal with ID
@@ -85,7 +90,7 @@ class _CreateFeedOrEventScreenState extends State<CreateFeedOrEventScreen> {
         postDate: DateTime.now(),
         postAuthor: House(
             id: 'bQQXe4pRe3IRJBU4GCVZ',
-            name: 'Logged in user',
+            name: userId!,
             address: 'test',
             description: 'bruuh',
             lat: 0,
